@@ -22,7 +22,8 @@ class FormInput extends React.Component {
   }
 
   render() {
-    const { label, name, type, value, options } = this.state
+    let type = this.state.type
+    const { label, name, value, options } = this.state
 
     let field = null
 

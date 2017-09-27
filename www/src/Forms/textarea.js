@@ -43,16 +43,13 @@ class Input extends React.Component {
           break
 
         case INPUT_RULES.ONLYNUMERIC :
-          // let reg = new RegExp('^[0-9]+$')
-          // let match = currentVal.match(reg)
-
           if(isNaN(currentVal)) {
             if(currentVal.length > 0) {
               currentVal = currentVal.substr(0, currentVal.length-1)
             }
           }
           break
-          
+
         case INPUT_RULES.REQUIRED :
           if(currentVal === "")
             errorCounter++

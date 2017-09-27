@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormMaker from '../Forms/FormMaker';
+import FormMaker from '../Forms/formMaker';
 
 class PetForm extends Component {
 

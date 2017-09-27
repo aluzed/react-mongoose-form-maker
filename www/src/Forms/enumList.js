@@ -22,7 +22,7 @@ class EnumList extends React.Component {
   }
 
   render() {
-    const { name, value, options }
+    const { name, value, options } = this.state
 
     let optsValues = []
 
@@ -41,11 +41,12 @@ class EnumList extends React.Component {
                 if(this.state.value.indexOf(opt) < 0) {
                   return (
                     <div
-                    className={formStyles.enumBtnClass}
-                    onClick={e=>this.select(opt)}
+                      key={opt}
+                      className={formStyles.enumBtnClass}
+                      onClick={e=>this.select(opt)}
                     >
-                    <i className={formStyles.enumAddSuggestClass}></i>
-                    {opt}
+                      <i className={formStyles.enumAddSuggestClass}></i>
+                      {opt}
                     </div>
                   )
                 } else {
@@ -55,18 +56,18 @@ class EnumList extends React.Component {
               else {
                 if(this.state.value.indexOf(opt.value) < 0) {
                   return (
-                    <div className={formStyles.enumBtnClass}
-                    onClick={e=>this.deselect(opt.value)}
+                    <div
+                      key={opt.value}
+                      className={formStyles.enumBtnClass}
+                      onClick={e=>this.deselect(opt.value)}
                     >
-                    <i className={formStyles.enumAddSuggestClass}></i>
-                    {opt.caption}
+                      <i className={formStyles.enumAddSuggestClass}></i>
+                      {opt.caption}
                     </div>
                   )
                 }
                 else {
-                  return (
-                    return null
-                  )
+                  return null
                 }
               }
             })
@@ -77,3 +78,5 @@ class EnumList extends React.Component {
     )
   }
 }
+
+export default EnumList

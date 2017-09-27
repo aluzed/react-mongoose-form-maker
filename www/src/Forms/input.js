@@ -1,4 +1,5 @@
 import React from 'react'
+import formStyles from './formStyles'
 
 const INPUT_RULES = {
   MINLENGTH   : 0,
@@ -81,9 +82,7 @@ class Input extends React.Component {
       }
     })
 
-    (errorCounter > 0) ?
-      this.setState({value: currentVal, haveError: true}) :
-      this.setState({value: currentVal, haveError: false})
+    (errorCounter > 0) ? this.setState({value: currentVal, haveError: true}) : this.setState({value: currentVal, haveError: false})
   }
 
   render() {

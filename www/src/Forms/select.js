@@ -32,17 +32,18 @@ class Select extends React.Component {
           if(typeof opt === "string") {
             return (
               <option
+                key={opt}
                 value={opt}>
-              {opt.substr(0, 1).toUppercase() + opt.substr(1, opt.length).toLowerCase()}
+              {opt.substr(0, 1).toUpperCase() + opt.substr(1, opt.length).toLowerCase()}
               </option>)
           }
           else {
             return (
               <option
+                key={opt.value}
                 value={opt.value}>
                 {opt.caption}
               </option>)
-            )
           }
         })}
       </select>

@@ -1,5 +1,5 @@
 import React from 'react'
-import FormInput from './FormInput'
+import FormInput from './formInput'
 import formStyles from './formStyles'
 
 class FormMaker extends React.Component {
@@ -8,13 +8,15 @@ class FormMaker extends React.Component {
     super(props)
 
     this.state = {
-      schema: {},
-      values: this.props.values || {}
+      metaUrl : this.props.metaUrl || '',
+      url     : this.props.url || '',
+      schema  : {},
+      values  : this.props.values || {}
     }
   }
 
   componentWillMount() {
-    if(!!this.props.metaUrl)
+    if(this.state.metaUrl === "")
       throw new Error('Error, FormMaker require metaUrl property')
 
     fetch(this.props.metaUrl)
@@ -37,7 +39,7 @@ class FormMaker extends React.Component {
   render() {
     const { url, method } = this.props
     const { schema, values } = this.state
-    
+
     let fields = []
 
     for(let field in schema) {
@@ -64,8 +66,10 @@ class FormMaker extends React.Component {
               if(!!field.options.placeholder)
                 opts.placeholder = field.options.placeholder
 
-              if(!!field.enumValues)
-                opts.enum = field.enumValues
+              if(!!field.enumValues) {
+                if(field.enumValues.length > 0)
+                opts['enum'] = field.enumValues
+              }
             }
 
             return (

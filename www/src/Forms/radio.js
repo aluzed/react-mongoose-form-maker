@@ -24,7 +24,7 @@ class Radio extends React.Component {
           optsValues.map(opt => {
             if(typeof opt === "string") {
               return (
-                <span>
+                <span key={opt}>
                   <input
                     ref={name}
                     type="radio"
@@ -32,13 +32,13 @@ class Radio extends React.Component {
                     value={opt}
                     onChange={e => this.setState({ value: e.target.value })}
                   />
-                  {placeholder}
+                  {opt}
                 </span>
               )
             }
             else {
               return (
-                <span>
+                <span key={opt.value}>
                   <input
                     ref={name}
                     type="radio"
