@@ -24,7 +24,7 @@ class Select extends React.Component {
           ref={name}
           type="checkbox"
           className={formStyles.checkboxClass}
-          value={value}
+          defaultChecked={value}
           onChange={e => this.setState({ value: e.target.value })}
         />
         {placeholder}

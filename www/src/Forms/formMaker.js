@@ -29,6 +29,10 @@ class FormMaker extends React.Component {
       })
   }
 
+  updateStateValues(key, value) {
+    debugger
+  }
+
   validate(evt) {
     evt.preventDefault()
     let body = {}
@@ -57,30 +61,43 @@ class FormMaker extends React.Component {
               placeholder: field.label || field.path
             }
 
+            let tmpValues = null
+
             if(!!field.options) {
+              // If the field is required
               if(field.options.required)
                 opts.constraints.push({
                   type: 'REQUIRED',
                   details: {}
                 })
+
+              // If the field contains a placeholder
               if(!!field.options.placeholder)
                 opts.placeholder = field.options.placeholder
 
-              if(!!field.enumValues) {
-                if(field.enumValues.length > 0)
-                opts['enum'] = field.enumValues
-              }
+              // If the field
+              if(!!field.options.default)
+                tmpValues = field.options.default
             }
+
+            // If the field contains enum
+            if(!!field.enumValues) {
+              if(field.enumValues.length > 0)
+              opts['enum'] = field.enumValues
+            }
+
+            if(!!values[field.path])
+              tmpValues = values[field.path]
 
             return (
               <FormInput
                 key={field.path}
-                ref={field.path}
                 name={field.path}
                 label={field.label ? field.label : field.path}
                 type={field.instance.toLowerCase()}
                 options={opts}
-                value={values[field.path] ? values[field.path] : null}
+                value={tmpValues ? tmpValues : null}
+                updateStateValues={this.updateStateValues}
                 />
             )})
         }

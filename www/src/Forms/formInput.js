@@ -13,17 +13,18 @@ class FormInput extends React.Component {
     super(props)
 
     this.state = {
-      label   : this.props.label || "",
-      value   : this.props.value || "",
-      name    : this.props.name || "",
-      type    : this.props.type || "String",
-      options : this.props.options || {}
+      label             : this.props.label || "",
+      value             : this.props.value || "",
+      name              : this.props.name || "",
+      type              : this.props.type || "String",
+      updateStateValues : this.props.updateStateValues,
+      options           : this.props.options || {}
     }
   }
 
   render() {
     let type = this.state.type
-    const { label, name, value, options } = this.state
+    const { label, name, value, options, updateStateValues } = this.state
 
     let field = null
 
@@ -39,6 +40,7 @@ class FormInput extends React.Component {
             name={name}
             options={options}
             value={value}
+            updateStateValues={updateStateValues}
           />)
           break
 
@@ -48,6 +50,7 @@ class FormInput extends React.Component {
               name={name}
               options={options}
               value={value}
+              updateStateValues={updateStateValues}
             />)
           break
       }
@@ -60,6 +63,7 @@ class FormInput extends React.Component {
             name={name}
             options={options}
             value={value}
+            updateStateValues={updateStateValues}
             />
           )
           break
@@ -70,6 +74,7 @@ class FormInput extends React.Component {
             name={name}
             options={options}
             value={value}
+            updateStateValues={updateStateValues}
             />)
           break
 
@@ -80,6 +85,7 @@ class FormInput extends React.Component {
             name={name}
             options={options}
             value={value}
+            updateStateValues={updateStateValues}
             />
           )
           break
@@ -90,6 +96,7 @@ class FormInput extends React.Component {
             name={name}
             options={options}
             value={value}
+            updateStateValues={updateStateValues}
             />
           )
           break
@@ -100,6 +107,7 @@ class FormInput extends React.Component {
             name={name}
             options={options}
             value={value}
+            updateStateValues={updateStateValues}
             />)
             break
           }

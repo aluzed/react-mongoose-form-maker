@@ -12,6 +12,7 @@ let petSchema = new Schema({
     placeholder: "Type d'animal"
   },
   weight     : {type: Number},
+  vaccined   : {type: Boolean},
   created_at : {type: Date, default: Date.now},
   updated_at : {type: Date}
 })

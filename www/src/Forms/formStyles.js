@@ -18,7 +18,7 @@ export default {
   enumRemoveSuggestBtn: 'btn btn-default suggest-remove',
   enumRemoveSuggestClass: 'ion ion-close enum-suggest',
   checkboxClass: '',
-  checkboxGroupClass: 'row',
+  checkboxGroupClass: 'container-fluid',
   radioClass: '',
-  radioGroupClass: 'row',
+  radioGroupClass: 'container-fluid'
 }

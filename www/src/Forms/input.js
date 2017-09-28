@@ -16,10 +16,11 @@ class Input extends React.Component {
     super(props)
 
     this.state = {
-      value       : this.props.value || "",
-      name        : this.props.name || "",
-      options     : this.props.options || {},
-      haveError   : false
+      value              : this.props.value || "",
+      name               : this.props.name || "",
+      options            : this.props.options || {},
+      updateStateValues  : this.props.updateStateValues,
+      haveError          : false
     }
     this.rules = []
   }
@@ -84,12 +85,17 @@ class Input extends React.Component {
     (errorCounter > 0) ? this.setState({value: currentVal, haveError: true}) : this.setState({value: currentVal, haveError: false})
   }
 
+  changeDispatcher(e) {
+    this.checkRules(e.target)
+    this.state.updateStateValues(this.state.name, this.state.value)
+  }
+
   render() {
     const { name, value, options, hasError } = this.state
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
 
-    // If the input contain constraints
+    // If the input contains constraints
     if(!!options.constraints) {
       options.constraints.forEach(constraint => {
         if(!!INPUT_RULES[constraint.type]) {
@@ -111,7 +117,7 @@ class Input extends React.Component {
         className={classNames}
         value={value}
         placeholder={placeholder}
-        onChange={e => this.checkRules(e.target)}
+        onChange={e =>this.changeDispatcher(e)}
       />
     )
   }
