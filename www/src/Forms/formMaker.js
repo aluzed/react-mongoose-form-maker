@@ -30,7 +30,11 @@ class FormMaker extends React.Component {
   }
 
   updateStateValues(key, value) {
-    debugger
+    if(!!this.state) {
+      let tmpVals = this.state.values
+      tmpVals[key] = value
+      this.setState({ values: tmpVals })
+    }
   }
 
   validate(evt) {

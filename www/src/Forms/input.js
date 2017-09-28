@@ -85,13 +85,10 @@ class Input extends React.Component {
     (errorCounter > 0) ? this.setState({value: currentVal, haveError: true}) : this.setState({value: currentVal, haveError: false})
   }
 
-  changeDispatcher(e) {
-    this.checkRules(e.target)
-    this.state.updateStateValues(this.state.name, this.state.value)
-  }
-
   render() {
     const { name, value, options, hasError } = this.state
+
+    this.state.updateStateValues(this.state.name, this.state.value)
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
 
@@ -117,7 +114,7 @@ class Input extends React.Component {
         className={classNames}
         value={value}
         placeholder={placeholder}
-        onChange={e =>this.changeDispatcher(e)}
+        onChange={e =>this.checkRules(e.target)}
       />
     )
   }

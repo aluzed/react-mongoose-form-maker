@@ -17,5 +17,4 @@ let petSchema = new Schema({
   updated_at : {type: Date}
 })
 
-// make this available to our users in our Node applications
 module.exports = mongoose.model('Pet', petSchema)

@@ -13,6 +13,11 @@ class Radio extends React.Component {
     }
   }
 
+  changeDispatcher(e) {
+    this.setState({ value: e.target.value })
+    this.state.updateStateValues(this.state.name, this.state.value)
+  }
+
   render() {
     const { name, value, options, hasError } = this.state
 
@@ -30,7 +35,7 @@ class Radio extends React.Component {
                     type="radio"
                     className={formStyles.radioClass}
                     value={opt}
-                    onChange={e => this.setState({ value: e.target.value })}
+                    onChange={e => this.changeDispatcher(e)}
                   />
                   {opt}
                 </span>
@@ -44,7 +49,7 @@ class Radio extends React.Component {
                     type="radio"
                     className={formStyles.radioClass}
                     value={opt.value}
-                    onChange={e => this.setState({ value: e.target.value })}
+                    onChange={e => this.changeDispatcher(e)}
                   />
                   {opt.caption}
                 </span>

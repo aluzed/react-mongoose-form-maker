@@ -6,15 +6,18 @@ class Select extends React.Component {
     super(props)
 
     this.state = {
-      value       : this.props.value || "",
-      name        : this.props.name || "",
-      options     : this.props.options || {},
-      haveError   : false
+      value             : this.props.value || "",
+      name              : this.props.name || "",
+      options           : this.props.options || {},
+      updateStateValues : this.props.updateStateValues,
+      haveError         : false
     }
   }
 
   render() {
     const { name, value, options, hasError } = this.state
+
+    this.state.updateStateValues(this.state.name, this.state.value)
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
 

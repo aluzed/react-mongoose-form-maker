@@ -16,10 +16,11 @@ class Input extends React.Component {
     super(props)
 
     this.state = {
-      value       : this.props.value || "",
-      name        : this.props.name || "",
-      options     : this.props.options || {},
-      haveError   : false
+      value             : this.props.value || "",
+      name              : this.props.name || "",
+      options           : this.props.options || {},
+      updateStateValues : this.props.updateStateValues,
+      haveError         : false
     }
     this.rules = []
   }
@@ -68,6 +69,8 @@ class Input extends React.Component {
   render() {
     const { name, value, options, hasError } = this.state
 
+    this.state.updateStateValues(this.state.name, this.state.value)
+
     let placeholder = (!!options.placeholder) ? options.placeholder : name
 
     // If the input contain constraints
@@ -92,7 +95,7 @@ class Input extends React.Component {
         className={classNames}
         value={value}
         placeholder={placeholder}
-        onChange={e => this.checkRules(e.target)}></textarea>
+        onChange={e => this.setState({ value: e.target.value })}></textarea>
     )
   }
 

@@ -6,7 +6,8 @@ class EnumList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: this.props.value || []
+      value             : this.props.value || [],
+      updateStateValues : this.props.updateStateValues
     }
   }
 
@@ -14,11 +15,13 @@ class EnumList extends React.Component {
     let tmpState = this.state.value
     tmpState.push(val)
     this.setState({ value: tmpState })
+    this.state.updateStateValues(this.state.name, tmpState)
   }
 
   deselect(val) {
     let tmpState = _.difference(this.state.value, [val])
     this.setState({ value: tmpState })
+    this.state.updateStateValues(this.state.name, tmpState)
   }
 
   render() {
