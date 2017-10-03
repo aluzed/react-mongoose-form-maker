@@ -12,8 +12,8 @@ class FormMaker extends React.Component {
       metaUrl    : this.props.metaUrl || '',
       schema     : this.props.schema || {},
       values     : this.props.values || {},
-      onSubmitCb : this.props.onSubmitCb || void(0),
-      onCancelCb : this.props.onCancelCb || void(0)
+      onSubmitCb : this.props.onSubmit || void(0),
+      onCancelCb : this.props.onCancel || void(0)
     }
 
     this.updateStateValues = this.updateStateValues.bind(this)

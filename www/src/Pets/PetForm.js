@@ -13,8 +13,8 @@ class PetForm extends Component {
         <FormMaker
           title="Add a Pet"
           metaUrl="http://localhost:3000/pets/metadata"
-          onSubmitCb={ (values)=>{ console.log(values) } }
-          onCancelCb={ ()=>{ console.log('cancel callback') } } />
+          onSubmit={ (values)=>{ console.log(values) } }
+          onCancel={ ()=>{ console.log('cancel callback') } } />
       </div>
     );
   }
