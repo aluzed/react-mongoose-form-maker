@@ -39,14 +39,72 @@ module.exports = mongoose.model('Pet', petSchema)
 
 ### List of field types
 
-* type: String, normal input type text
-* type: Number, numeric input type text
-* ref ObjectId, selectable input
+* Text
+```javascript
+// In mongoose model
+let petSchema = new Schema({
+  name : {  
+    type: String,
+    required: true,
+    placeholder: "Nom de l'animal"
+  }
+})
+```
+
+* Numeric
+```javascript
+// In mongoose model
+let petSchema = new Schema({
+  weight : { type: Number }
+})
+```
+
 * type: Boolean, checkbox
-* ref Array of ObjectId, extra form
-* type: * with enum, select
-* forceField: "textarea", textarea
-* forceField: "radio" with enum, radio
+```javascript
+// In mongoose model
+let petSchema = new Schema({
+  weight : { type: Number }
+})
+```
+
+* Enum : displays select input as default
+```javascript
+// In mongoose model
+let petSchema = new Schema({
+  kind : {
+    type: String,
+    enum: ['Lion', 'Cat', 'Dog', 'Rabbit', 'Bird', 'Duck'],
+    placeholder: "Type"
+  }
+})
+```
+
+* Textarea
+```javascript
+// In mongoose model
+let petSchema = new Schema({
+  description : {
+    type: String,
+    forceField: "textarea"
+  }
+})
+```
+
+* Radio
+```javascript
+// In mongoose model
+let petSchema = new Schema({
+  kind : {
+    type: String,
+    enum: ['Lion', 'Cat', 'Dog', 'Rabbit', 'Bird', 'Duck'],
+    placeholder: "Type",
+    forceField: "radio"
+  }
+})
+```
+
+* Foreign Key
+
 
 
 That's it for the API.
@@ -54,5 +112,16 @@ That's it for the API.
 Now on the client side react project :
 
 ```javascript
+import FormMaker from '../Forms/formMaker'
+
+// New in the render
+
+return <FormMaker
+  title="Add a Pet"
+  metaUrl="http://localhost:3000/pets/metadata"
+  onSubmit={ (values)=>{ console.log(values) } }
+  onCancel={ ()=>{ console.log('cancel callback') } } />
+
+// Now you can handle each action submit and cancel by binding your callback here
 
 ```

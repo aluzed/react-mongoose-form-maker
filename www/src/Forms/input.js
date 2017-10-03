@@ -80,7 +80,7 @@ class Input extends React.Component {
     }
 
     (errorCounter > 0) ? this.setState({haveError: true}) : this.setState({haveError: false})
-    this.props.updateStateValues(this.props.name, e.target.value)
+    this.props.updateStateValues(this.props.name, currentVal)
   }
 
   render() {
@@ -88,6 +88,10 @@ class Input extends React.Component {
     const { hasError } = this.state
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
+
+    if(placeholder === name && name.length > 1) {
+      placeholder = placeholder.substr(0, 1).toUpperCase() + placeholder.substr(1, placeholder.length).toLowerCase()
+    }
 
     // If the input contains constraints
     if(!!options.constraints) {

@@ -14,6 +14,11 @@ class Select extends React.Component {
     const { name, value, options } = this.props
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
+
+    if(placeholder === name && name.length > 1) {
+      placeholder = placeholder.substr(0, 1).toUpperCase() + placeholder.substr(1, placeholder.length).toLowerCase()
+    }
+
     let optsValues = (!!options.enum) ? options.enum : []
 
 

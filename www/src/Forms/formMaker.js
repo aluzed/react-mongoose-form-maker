@@ -8,30 +8,27 @@ class FormMaker extends React.Component {
     super(props)
 
     this.state = {
-      title   : this.props.title || '',
-      metaUrl : this.props.metaUrl || '',
-      url     : this.props.url || '',
-      schema  : {},
-      values  : this.props.values || {},
-      onSubmitRedirect : this.props.onSubmitRedirect || void(0),
-      onCancelRedirect : this.props.onCancelRedirect || void(0)
+      title      : this.props.title || '',
+      metaUrl    : this.props.metaUrl || '',
+      schema     : this.props.schema || {},
+      values     : this.props.values || {},
+      onSubmitCb : this.props.onSubmitCb || void(0),
+      onCancelCb : this.props.onCancelCb || void(0)
     }
 
     this.updateStateValues = this.updateStateValues.bind(this)
   }
 
   componentWillMount() {
-    if(this.state.metaUrl === "")
-      throw new Error('Error, FormMaker require metaUrl property')
-
-    fetch(this.props.metaUrl)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({schema: responseJson})
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    if(this.state.metaUrl !== "")
+      fetch(this.props.metaUrl)
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState({schema: responseJson})
+        })
+        .catch((error) => {
+          console.error(error)
+        })
   }
 
   updateStateValues(name, value) {
@@ -41,24 +38,17 @@ class FormMaker extends React.Component {
   validate(evt) {
     evt.preventDefault()
     let body = this.state.values
-    this.onSubmit(body)
+    this.state.onSubmitCb(body)
   }
 
   cancel(evt) {
     evt.preventDefault()
 
     if(window.confirm("Are you sure to cancel current form ?"))
-      this.state.onCancelRedirect()
-  }
-
-  onSubmit(values) {
-    console.log(values)
-
-    this.state.onSubmitRedirect()
+      this.state.onCancelCb()
   }
 
   render() {
-    const { url, method } = this.props
     const { schema, values, title } = this.state
 
     let fields = []
@@ -69,7 +59,7 @@ class FormMaker extends React.Component {
     }
 
     return (
-      <form method={method} action={url} className={formStyles.formClass}>
+      <form className={formStyles.formClass}>
         <div className={formStyles.formHeaderClass}>
           <h4>
             {title}
@@ -102,6 +92,10 @@ class FormMaker extends React.Component {
                 // If the field
                 if(!!field.options.default)
                   tmpValue = field.options.default
+
+                // If there is a forced field
+                if(!!field.options.forceField)
+                  opts.forceField = field.options.forceField
               }
 
               // If the field contains enum

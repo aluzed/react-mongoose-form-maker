@@ -21,7 +21,7 @@ class FormInput extends React.Component {
 
     // The option.forceField override the current field type
     if(!!options.forceField)
-      type = options.forceField
+      type = options.forceField.toLowerCase()
 
     // Check if it has an enum
     if(!!options.enum) {
@@ -35,6 +35,16 @@ class FormInput extends React.Component {
               updateStateValues={updateStateValues}
             />
           )
+          break
+
+        case "radio" :
+          field = (
+            <Radio
+              name={name}
+              options={options}
+              value={value !== null ? value : ""}
+              updateStateValues={updateStateValues}
+            />)
           break
 
         default :
@@ -108,7 +118,7 @@ class FormInput extends React.Component {
 
     let tmpLabel = label
 
-    if(label.length > 0)
+    if(label.length > 1)
       tmpLabel = label.substr(0, 1).toUpperCase() + label.substr(1, label.length).toLowerCase()
 
     return (

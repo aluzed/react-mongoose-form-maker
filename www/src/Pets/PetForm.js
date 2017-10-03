@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import FormMaker from '../Forms/formMaker';
+import React, { Component } from 'react'
+import FormMaker from '../Forms/formMaker'
 
 class PetForm extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -13,10 +13,8 @@ class PetForm extends Component {
         <FormMaker
           title="Add a Pet"
           metaUrl="http://localhost:3000/pets/metadata"
-          url="http://localhost:3000/pets/add"
-          method="post"
-          onSubmitRedirect={ ()=>{ console.log('submit callback') } }
-          onCancelRedirect={ ()=>{ console.log('cancel callback') } } />
+          onSubmitCb={ (values)=>{ console.log(values) } }
+          onCancelCb={ ()=>{ console.log('cancel callback') } } />
       </div>
     );
   }

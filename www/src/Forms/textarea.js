@@ -62,7 +62,7 @@ class Input extends React.Component {
       this.setState({haveError: true}) :
       this.setState({haveError: false})
 
-    this.props.updateStateValues(this.props.name, e.target.value)
+    this.props.updateStateValues(this.props.name, currentVal)
   }
 
   render() {

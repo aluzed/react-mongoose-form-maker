@@ -24,6 +24,7 @@ export default {
   enumRemoveSuggestClass: 'ion ion-close enum-suggest',
   checkboxClass: '',
   checkboxGroupClass: 'container-fluid',
+  radioContainerClass: 'px-3',
   radioClass: '',
   radioGroupClass: 'container-fluid'
 }

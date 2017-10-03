@@ -21,7 +21,7 @@ class Radio extends React.Component {
           optsValues.map(opt => {
             if(typeof opt === "string") {
               return (
-                <span key={opt}>
+                <span key={opt} className={formStyles.radioContainerClass}>
                   <input
                     ref={name}
                     type="radio"
@@ -35,7 +35,7 @@ class Radio extends React.Component {
             }
             else {
               return (
-                <span key={opt.value}>
+                <span key={opt.value} className={formStyles.radioContainerClass}>
                   <input
                     ref={name}
                     type="radio"

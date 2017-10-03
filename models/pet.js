@@ -5,11 +5,11 @@ const Schema = mongoose.Schema
 
 // create a schema
 let petSchema = new Schema({
-  name       : {type: String, required: true, placeholder: "Nom de l'animal"},
+  name       : {type: String, required: true, placeholder: "Name of the pet"},
   kind       : {
     type: String,
     enum: ['Lion', 'Cat', 'Dog', 'Rabbit', 'Bird', 'Duck'],
-    placeholder: "Type d'animal"
+    placeholder: "Type of pet"
   },
   weight     : {type: Number},
   vaccined   : {type: Boolean},
