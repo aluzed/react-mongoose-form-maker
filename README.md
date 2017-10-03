@@ -147,3 +147,7 @@ return <FormMaker
   onCancel={ ()=>{ console.log('cancel callback') } } />
 
 ```
+
+# Customize style
+
+Each element got a customizable Css style or caption, look in `www/src/Forms/formStyles`, by default we use Bootstrap 4 classes.
