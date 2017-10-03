@@ -12,6 +12,17 @@ const Metadata = require('/path/to/metadata.js')
 app.get('/pets/metadata', Metadata.meta('Pet'))
 ```
 
+### Disabled fields
+
+By default not all kind of field will be displayed on client side. Here is the list of disabled fields : 
+
+* __v
+* _id
+* created_at
+* updated_at
+
+So, for those fields, you would not get a form input client side.
+
 ## Model Options
 
 In the mongoose model :
@@ -105,39 +116,55 @@ let petSchema = new Schema({
 
 * Foreign Key
 
+## Create multiple forms
+```javascript
+// First of all, import the module
+const Metadata = require('/path/to/metadata.js')
 
+// Add meta fields
+// Here, we disabled kind and vaccined fields
+app.get('/pets/meta_add', Metadata.meta('Pet', { filter: ['kind', 'vaccined'] }))
+
+// Edit meta fields
+// Here, we disabled name field
+app.get('/pets/meta_edit', Metadata.meta('Pet', { filter: ['name'] }))
+```
+
+## Views
 
 That's it for the API.
 
 Now on the client side react project :
 
-## Add Form
+### Add Form
 
 ```javascript
 import FormMaker from '../Forms/formMaker'
 
-// New in the render
-
+// Now in the render
+render() {
 return <FormMaker
   title="Add a Pet"
-  metaUrl="http://localhost:3000/pets/metadata"
+  metaUrl="http://server/pets/metadata"
   onSubmit={ (values)=>{ console.log(values) } }
   onCancel={ ()=>{ console.log('cancel callback') } } />
+}
 
 // Now you can handle each action submit and cancel by binding your callback here
 
 ```
 
-## Edit Form
+### Edit Form
 
 ```javascript
 import FormMaker from '../Forms/formMaker'
 
-// New in the render
-
+// Now in the render
+// We just have to set values and data, will be match automatically
+render() {
 return <FormMaker
   title="Add a Pet"
-  metaUrl="http://localhost:3000/pets/metadata"
+  metaUrl="http://server/pets/metadata"
   values={{
     name: "Toto",
     vaccined: true,
@@ -145,9 +172,10 @@ return <FormMaker
   }}
   onSubmit={ (values)=>{ console.log(values) } }
   onCancel={ ()=>{ console.log('cancel callback') } } />
+}
 
 ```
 
-# Customize style
+## Customize style
 
 Each element got a customizable Css style or caption, look in `www/src/Forms/formStyles`, by default we use Bootstrap 4 classes.
