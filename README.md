@@ -12,7 +12,7 @@ const Metadata = require('/path/to/metadata.js')
 app.get('/pets/metadata', Metadata.meta('Pet'))
 ```
 
-### Disabled fields
+### Disabled fields
 
 By default not all kind of field will be displayed on client side. Here is the list of disabled fields : 
 
