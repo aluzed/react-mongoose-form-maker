@@ -11,9 +11,12 @@ class PetForm extends Component {
     return (
       <div>
         <FormMaker
+          title="Add a Pet"
           metaUrl="http://localhost:3000/pets/metadata"
           url="http://localhost:3000/pets/add"
-          method="post" />
+          method="post"
+          onSubmitRedirect={ ()=>{ console.log('submit callback') } }
+          onCancelRedirect={ ()=>{ console.log('cancel callback') } } />
       </div>
     );
   }

@@ -16,17 +16,14 @@ class Input extends React.Component {
     super(props)
 
     this.state = {
-      value             : this.props.value || "",
-      name              : this.props.name || "",
-      options           : this.props.options || {},
-      updateStateValues : this.props.updateStateValues,
-      haveError         : false
+      hasError         : false
     }
     this.rules = []
   }
 
-  checkRules(currentInput) {
-    let errorCounter = 0,
+  checkRules(e) {
+    let currentInput = e.target,
+        errorCounter = 0,
         d = {},
         currentVal = currentInput.value
 
@@ -62,14 +59,15 @@ class Input extends React.Component {
     })
 
     (errorCounter > 0) ?
-      this.setState({value: currentVal, haveError: true}) :
-      this.setState({value: currentVal, haveError: false})
+      this.setState({haveError: true}) :
+      this.setState({haveError: false})
+
+    this.props.updateStateValues(this.props.name, e.target.value)
   }
 
   render() {
-    const { name, value, options, hasError } = this.state
-
-    this.state.updateStateValues(this.state.name, this.state.value)
+    const { name, value, options } = this.props
+    const { hasError } = this.state
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
 
@@ -95,7 +93,7 @@ class Input extends React.Component {
         className={classNames}
         value={value}
         placeholder={placeholder}
-        onChange={e => this.setState({ value: e.target.value })}></textarea>
+        onChange={e => this.checkRules(e)}></textarea>
     )
   }
 

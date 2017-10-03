@@ -8,11 +8,16 @@ class FormMaker extends React.Component {
     super(props)
 
     this.state = {
+      title   : this.props.title || '',
       metaUrl : this.props.metaUrl || '',
       url     : this.props.url || '',
       schema  : {},
-      values  : this.props.values || {}
+      values  : this.props.values || {},
+      onSubmitRedirect : this.props.onSubmitRedirect || void(0),
+      onCancelRedirect : this.props.onCancelRedirect || void(0)
     }
+
+    this.updateStateValues = this.updateStateValues.bind(this)
   }
 
   componentWillMount() {
@@ -29,24 +34,32 @@ class FormMaker extends React.Component {
       })
   }
 
-  updateStateValues(key, value) {
-    if(!!this.state) {
-      let tmpVals = this.state.values
-      tmpVals[key] = value
-      this.setState({ values: tmpVals })
-    }
+  updateStateValues(name, value) {
+    this.setState({ values: {...this.state.values, [name]: value } })
   }
 
   validate(evt) {
     evt.preventDefault()
-    let body = {}
-    debugger
-    this.state.onSubmit(body)
+    let body = this.state.values
+    this.onSubmit(body)
+  }
+
+  cancel(evt) {
+    evt.preventDefault()
+
+    if(window.confirm("Are you sure to cancel current form ?"))
+      this.state.onCancelRedirect()
+  }
+
+  onSubmit(values) {
+    console.log(values)
+
+    this.state.onSubmitRedirect()
   }
 
   render() {
     const { url, method } = this.props
-    const { schema, values } = this.state
+    const { schema, values, title } = this.state
 
     let fields = []
 
@@ -57,58 +70,73 @@ class FormMaker extends React.Component {
 
     return (
       <form method={method} action={url} className={formStyles.formClass}>
-        {
-          fields.map(field => {
+        <div className={formStyles.formHeaderClass}>
+          <h4>
+            {title}
+          </h4>
+          <hr/>
+        </div>
 
-            let opts = {
-              constraints: [],
-              placeholder: field.label || field.path
-            }
+        <div className={formStyles.formBodyClass}>
+          {
+            fields.map(field => {
+              let opts = {
+                constraints: [],
+                placeholder: field.label || field.path
+              }
 
-            let tmpValues = null
+              let tmpValue = null
 
-            if(!!field.options) {
-              // If the field is required
-              if(field.options.required)
-                opts.constraints.push({
-                  type: 'REQUIRED',
-                  details: {}
-                })
+              if(!!field.options) {
+                // If the field is required
+                if(field.options.required)
+                  opts.constraints.push({
+                    type: 'REQUIRED',
+                    details: {}
+                  })
 
-              // If the field contains a placeholder
-              if(!!field.options.placeholder)
-                opts.placeholder = field.options.placeholder
+                // If the field contains a placeholder
+                if(!!field.options.placeholder)
+                  opts.placeholder = field.options.placeholder
 
-              // If the field
-              if(!!field.options.default)
-                tmpValues = field.options.default
-            }
+                // If the field
+                if(!!field.options.default)
+                  tmpValue = field.options.default
+              }
 
-            // If the field contains enum
-            if(!!field.enumValues) {
-              if(field.enumValues.length > 0)
-              opts['enum'] = field.enumValues
-            }
+              // If the field contains enum
+              if(!!field.enumValues) {
+                if(field.enumValues.length > 0)
+                opts['enum'] = field.enumValues
+              }
 
-            if(!!values[field.path])
-              tmpValues = values[field.path]
+              if(!!values[field.path])
+                tmpValue = values[field.path]
 
-            return (
-              <FormInput
-                key={field.path}
-                name={field.path}
-                label={field.label ? field.label : field.path}
-                type={field.instance.toLowerCase()}
-                options={opts}
-                value={tmpValues ? tmpValues : null}
-                updateStateValues={this.updateStateValues}
-                />
-            )})
-        }
+              return (
+                <FormInput
+                  key={field.path}
+                  name={field.path}
+                  label={field.label ? field.label : field.path}
+                  type={field.instance.toLowerCase()}
+                  options={opts}
+                  value={tmpValue}
+                  updateStateValues={this.updateStateValues}
+                  />
+              )})
+          }
+          <hr/>
+        </div>
 
-        <button className={formStyles.submitBtnClass} onClick={e=>this.validate(e)}>
-          <i className={formStyles.submitBtnIcon}></i> {formStyles.submitBtnCaption}
-        </button>
+        <div className={formStyles.formFooterClass}>
+          <button className={formStyles.submitFormBtnClass} onClick={e=>this.validate(e)}>
+          <i className={formStyles.submitFormBtnIcon}></i> {formStyles.submitFormBtnCaption}
+          </button>
+
+          <button className={formStyles.cancelFormBtnClass} onClick={e=>this.cancel(e)}>
+          <i className={formStyles.cancelFormBtnIcon}></i> {formStyles.cancelFormBtnCaption}
+          </button>
+        </div>
       </form>
     )
   }

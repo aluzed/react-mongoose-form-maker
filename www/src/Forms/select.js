@@ -4,31 +4,25 @@ import formStyles from './formStyles'
 class Select extends React.Component {
   constructor(props) {
     super(props)
+  }
 
-    this.state = {
-      value             : this.props.value || "",
-      name              : this.props.name || "",
-      options           : this.props.options || {},
-      updateStateValues : this.props.updateStateValues,
-      haveError         : false
-    }
+  updateValue(e) {
+    this.props.updateStateValues(this.props.name, e.target.value)
   }
 
   render() {
-    const { name, value, options, hasError } = this.state
-
-    this.state.updateStateValues(this.state.name, this.state.value)
+    const { name, value, options } = this.props
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
-
     let optsValues = (!!options.enum) ? options.enum : []
+
 
     return (
       <select
         ref={name}
         className={formStyles.selectClass}
         value={value}
-        onChange={e => this.setState({ value: e.target.value })}
+        onChange={e => this.updateValue(e)}
       >
         <option value="">{placeholder}</option>
         {optsValues.map(opt => {

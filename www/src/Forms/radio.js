@@ -4,22 +4,14 @@ import formStyles from './formStyles'
 class Radio extends React.Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      value       : this.props.value || "",
-      name        : this.props.name || "",
-      options     : this.props.options || {},
-      haveError   : false
-    }
   }
 
-  changeDispatcher(e) {
-    this.setState({ value: e.target.value })
-    this.state.updateStateValues(this.state.name, this.state.value)
+  changedValue(e) {
+    this.props.updateStateValues(this.props.name, e.target.value)
   }
 
   render() {
-    const { name, value, options, hasError } = this.state
+    const { name, value, options } = this.props
 
     let optsValues = (!!options.enum) ? options.enum : []
 
@@ -35,7 +27,7 @@ class Radio extends React.Component {
                     type="radio"
                     className={formStyles.radioClass}
                     value={opt}
-                    onChange={e => this.changeDispatcher(e)}
+                    onChange={e => this.changedValue(e)}
                   />
                   {opt}
                 </span>
@@ -49,7 +41,7 @@ class Radio extends React.Component {
                     type="radio"
                     className={formStyles.radioClass}
                     value={opt.value}
-                    onChange={e => this.changeDispatcher(e)}
+                    onChange={e => this.changedValue(e)}
                   />
                   {opt.caption}
                 </span>

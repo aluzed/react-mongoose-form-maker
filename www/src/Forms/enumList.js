@@ -5,27 +5,21 @@ import _ from 'lodash-node'
 class EnumList extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      value             : this.props.value || [],
-      updateStateValues : this.props.updateStateValues
-    }
   }
 
   select(val) {
-    let tmpState = this.state.value
+    let tmpState = this.props.value
     tmpState.push(val)
-    this.setState({ value: tmpState })
-    this.state.updateStateValues(this.state.name, tmpState)
+    this.props.updateStateValues(this.props.name, tmpState)
   }
 
   deselect(val) {
-    let tmpState = _.difference(this.state.value, [val])
-    this.setState({ value: tmpState })
-    this.state.updateStateValues(this.state.name, tmpState)
+    let tmpState = _.difference(this.props.value, [val])
+    this.props.updateStateValues(this.props.name, tmpState)
   }
 
   render() {
-    const { name, value, options } = this.state
+    const { name, value, options } = this.props
 
     let optsValues = []
 
@@ -41,7 +35,7 @@ class EnumList extends React.Component {
           {
             optsValues.map(opt => {
               if(typeof opt === "string") {
-                if(this.state.value.indexOf(opt) < 0) {
+                if(this.props.value.indexOf(opt) < 0) {
                   return (
                     <div
                       key={opt}
@@ -57,7 +51,7 @@ class EnumList extends React.Component {
                 }
               }
               else {
-                if(this.state.value.indexOf(opt.value) < 0) {
+                if(this.props.value.indexOf(opt.value) < 0) {
                   return (
                     <div
                       key={opt.value}

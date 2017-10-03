@@ -11,20 +11,11 @@ class FormInput extends React.Component {
 
   constructor(props) {
     super(props)
-
-    this.state = {
-      label             : this.props.label || "",
-      value             : this.props.value || "",
-      name              : this.props.name || "",
-      type              : this.props.type || "String",
-      updateStateValues : this.props.updateStateValues,
-      options           : this.props.options || {}
-    }
   }
 
   render() {
-    let type = this.state.type
-    const { label, name, value, options, updateStateValues } = this.state
+    let { type } = this.props
+    const { label, name, value, options, updateStateValues } = this.props
 
     let field = null
 
@@ -36,12 +27,14 @@ class FormInput extends React.Component {
     if(!!options.enum) {
       switch(type) {
         case "array":
-          field = (<EnumList
-            name={name}
-            options={options}
-            value={value}
-            updateStateValues={updateStateValues}
-          />)
+          field = (
+            <EnumList
+              name={name}
+              options={options}
+              value={value !== null ? value : ""}
+              updateStateValues={updateStateValues}
+            />
+          )
           break
 
         default :
@@ -49,7 +42,7 @@ class FormInput extends React.Component {
             <Select
               name={name}
               options={options}
-              value={value}
+              value={value !== null ? value : ""}
               updateStateValues={updateStateValues}
             />)
           break
@@ -62,7 +55,7 @@ class FormInput extends React.Component {
             <Checkbox
             name={name}
             options={options}
-            value={value}
+            value={value !== null ? value : false}
             updateStateValues={updateStateValues}
             />
           )
@@ -73,7 +66,7 @@ class FormInput extends React.Component {
             <Input
             name={name}
             options={options}
-            value={value}
+            value={value !== null ? value : ""}
             updateStateValues={updateStateValues}
             />)
           break
@@ -84,7 +77,7 @@ class FormInput extends React.Component {
             <Input
             name={name}
             options={options}
-            value={value}
+            value={value !== null ? value : ""}
             updateStateValues={updateStateValues}
             />
           )
@@ -95,7 +88,7 @@ class FormInput extends React.Component {
             <Textarea
             name={name}
             options={options}
-            value={value}
+            value={value !== null ? value : ""}
             updateStateValues={updateStateValues}
             />
           )
@@ -106,17 +99,22 @@ class FormInput extends React.Component {
             <Input
             name={name}
             options={options}
-            value={value}
+            value={value !== null ? value : ""}
             updateStateValues={updateStateValues}
             />)
             break
           }
     }
 
+    let tmpLabel = label
+
+    if(label.length > 0)
+      tmpLabel = label.substr(0, 1).toUpperCase() + label.substr(1, label.length).toLowerCase()
+
     return (
       <div className={formStyles.formGroupClass}>
         <label htmlFor={name} className={formStyles.labelClass}>
-          {label}
+          {tmpLabel}
         </label>
 
         {field}
