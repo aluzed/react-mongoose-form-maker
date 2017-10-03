@@ -160,7 +160,7 @@ return <FormMaker
 import FormMaker from '../Forms/formMaker'
 
 // Now in the render
-// We just have to set values and data, will be match automatically
+// We just have to set values and data, will be matched automatically
 render() {
 return <FormMaker
   title="Add a Pet"
