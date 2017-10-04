@@ -5,16 +5,20 @@
 Work with mongoose model. On your api, create a route 'metadata' for a given model :
 ```javascript
 // First of all, import the module
+const path = require('path')
 const Metadata = require('/path/to/metadata.js')
 
-// let's use a model pet
+// Load Models
+Metadata.loadModels(path.join(__dirname, './models'))
+
+// Let's use a model pet
 // We need to use the meta middleware : Metadata.meta('<modelName>')
 app.get('/pets/metadata', Metadata.meta('Pet'))
 ```
 
 ### Disabled fields
 
-By default not all kind of field will be displayed on client side. Here is the list of disabled fields : 
+By default not all kind of field will be displayed on client side. Here is the list of disabled fields :
 
 * __v
 * _id

@@ -1,13 +1,12 @@
 {
-  "name": "formmaker",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "react-mongoose-form-maker",
+  "version": "0.0.1",
+  "description": "Generate a form from Mongoose Metadata",
+  "main": "src/index.js",
+  "author": "Alexandre PENOMBRE <aluzed@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "express": "^4.15.5",
-    "mongoose": "^4.11.13",
-    "multer": "^1.3.0"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aluzed/react-mongoose-form-maker.git"
+  },
 }

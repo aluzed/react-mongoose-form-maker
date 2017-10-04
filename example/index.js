@@ -5,8 +5,10 @@ const cors = require('cors');
 const multer = require('multer');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const PetModel = require('./models/pet');
-const Metadata = require('./components/metadata');
+const path = require('path');
+const Metadata = require('mongoose-metadata');
+
+Metadata.loadModels(path.join(__dirname,'./models'));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));

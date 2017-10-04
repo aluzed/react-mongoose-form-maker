@@ -1,10 +1,10 @@
 import React from 'react'
-import Input from './input'
-import EnumList from './enumList'
-import Select from './select'
-import Textarea from './textarea'
-import Radio from './radio'
-import Checkbox from './checkbox'
+import Input from './fields/input'
+import EnumList from './fields/enumList'
+import Select from './fields/select'
+import Textarea from './fields/textarea'
+import Radio from './fields/radio'
+import Checkbox from './fields/checkbox'
 import formStyles from './formStyles'
 
 class FormInput extends React.Component {
