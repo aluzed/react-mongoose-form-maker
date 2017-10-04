@@ -3,10 +3,25 @@
   "version": "0.0.1",
   "description": "Generate a form from Mongoose Metadata",
   "main": "src/index.js",
-  "author": "Alexandre PENOMBRE <aluzed@gmail.com>",
+  "author": "Alexandre PENOMBRE",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aluzed/react-mongoose-form-maker.git"
   },
+  "keywords": [
+    "React",
+    "Metadata",
+    "Form",
+    "Autoform",
+    "Mongoose",
+    "API"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/aluzed/react-mongoose-form-maker/issues"
+  },
+  "homepage": "https://github.com/aluzed/react-mongoose-form-maker#readme"
 }
