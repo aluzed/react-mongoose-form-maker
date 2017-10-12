@@ -7,17 +7,12 @@
 import React from 'react'
 
 const INPUT_RULES = {
-  MINLENGTH   : 0,
-  MAXLENGTH   : 1,
-  ONLYNUMERIC : 2,
-  BEETWEEN    : 3,
-  GREATERTHAN : 4,
-  LOWERTHAN   : 5,
-  REQUIRED    : 6,
-  ISEMAIL     : 7
+  MINDATE   : 0,
+  MAXDATE   : 1,
+  BEETWEEN  : 2
 }
 
-class Input extends React.Component {
+class DateField extends React.Component {
   constructor(props) {
     super(props)
 
@@ -36,52 +31,23 @@ class Input extends React.Component {
     if(!!this.rules.forEach) {
       this.rules.forEach(r => {
         switch(r.type) {
-          case INPUT_RULES.MINLENGTH :
+          case INPUT_RULES.MINDATE :
           d = r.details
-          if(currentVal.length < d.value) errorCounter++
+          if(currentVal.length < d.value)
+          errorCounter++
           break
-
-          case INPUT_RULES.MAXLENGTH :
+          case INPUT_RULES.MAXDATE :
           d = r.details
           currentVal = currentVal.substr(0, d.value)
           break
-
-          case INPUT_RULES.ONLYNUMERIC :
-          if(isNaN(currentVal)) {
-            if(currentVal.length > 0) currentVal = currentVal.substr(0, currentVal.length-1)
-          }
-          break
-
           case INPUT_RULES.BEETWEEN :
           d = r.details
           currentVal = parseFloat(currentVal, 10)
 
           // If the size of the string is lower than d.min or greater than d.max
-          if(!(currentVal < d.max) || !(currentVal > d.min)) errorCounter++
+          if(!(currentVal < d.max) || !(currentVal > d.min))
+          errorCounter++
           break
-
-          case INPUT_RULES.GREATERTHAN :
-          d = r.details
-          currentVal = parseFloat(currentVal, 10)
-
-          if(currentVal < d.value) errorCounter++
-          break
-
-          case INPUT_RULES.LOWERTHAN :
-          d = r.details
-          currentVal = parseFloat(currentVal, 10)
-
-          if(currentVal > d.value) errorCounter++
-          break
-
-          case INPUT_RULES.REQUIRED :
-          if(currentVal === "") errorCounter++
-          break
-
-          case INPUT_RULES.ISEMAIL :
-          if(!currentVal.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)) errorCounter++
-          break
-
           default:
           break
         }
@@ -130,4 +96,4 @@ class Input extends React.Component {
 
 }
 
-export default Input
+export default DateField

@@ -1,5 +1,10 @@
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
 import React from 'react'
-import formStyles from './formStyles'
 
 class Select extends React.Component {
   constructor(props) {
@@ -12,17 +17,16 @@ class Select extends React.Component {
     let placeholder = (!!options.placeholder) ? options.placeholder : name
 
     return (
-      <div className={formStyles.checkboxGroupClass}>
-        <input
-          ref={name}
-          type="checkbox"
-          className={formStyles.checkboxClass}
-          defaultChecked={value}
-          onChange={e => {
-            this.props.updateStateValues(name, e.target.checked)
-          }}
-        />
-        {placeholder}
+      <div className={this.props.formStyles.checkboxGroupClass}>
+      <input
+      type="checkbox"
+      className={this.props.formStyles.checkboxClass}
+      defaultChecked={value}
+      onChange={e => {
+        this.props.updateStateValues(name, e.target.checked)
+      }}
+      />
+      {placeholder}
       </div>
     )
   }

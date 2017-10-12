@@ -6,7 +6,8 @@ const multer = require('multer');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-const Metadata = require('mongoose-metadata');
+const _MMetadata = require('mongoose-metadata');
+const Metadata = _MMetadata(mongoose);
 
 Metadata.loadModels(path.join(__dirname,'./models'));
 
@@ -22,7 +23,11 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 })
 
-app.get('/pets/metadata', Metadata.meta('Pet'));
+app.get('/pets/meta_add', Metadata.meta('Pet'));
+
+app.get('/pets/meta_edit', Metadata.meta('Pet', {
+  filter: ['name']
+}));
 
 app.get('/pets', (req, res) => {
   PetModel.find({}, (err, docs) => {

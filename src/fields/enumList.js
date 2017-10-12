@@ -1,5 +1,10 @@
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
 import React from 'react'
-import formStyles from './formStyles'
 import _ from 'lodash-node'
 
 class EnumList extends React.Component {
@@ -24,53 +29,53 @@ class EnumList extends React.Component {
     let optsValues = []
 
     if(!!options.enum)
-      optsValues = options.enum
+    optsValues = options.enum
 
     return (
-      <div className={formStyles.enumListContainerClass}>
-        <div className={formStyles.enumListLeftClass}>
-          {formStyles.enumDescription}
-          <br/>
+      <div className={this.props.formStyles.enumListContainerClass}>
+      <div className={this.props.formStyles.enumListLeftClass}>
+      {this.props.formStyles.enumDescription}
+      <br/>
 
-          {
-            optsValues.map(opt => {
-              if(typeof opt === "string") {
-                if(this.props.value.indexOf(opt) < 0) {
-                  return (
-                    <div
-                      key={opt}
-                      className={formStyles.enumBtnClass}
-                      onClick={e=>this.select(opt)}
-                    >
-                      <i className={formStyles.enumAddSuggestClass}></i>
-                      {opt}
-                    </div>
-                  )
-                } else {
-                  return null
-                }
-              }
-              else {
-                if(this.props.value.indexOf(opt.value) < 0) {
-                  return (
-                    <div
-                      key={opt.value}
-                      className={formStyles.enumBtnClass}
-                      onClick={e=>this.deselect(opt.value)}
-                    >
-                      <i className={formStyles.enumAddSuggestClass}></i>
-                      {opt.caption}
-                    </div>
-                  )
-                }
-                else {
-                  return null
-                }
-              }
-            })
+      {
+        optsValues.map(opt => {
+          if(typeof opt === "string") {
+            if(this.props.value.indexOf(opt) < 0) {
+              return (
+                <div
+                key={opt}
+                className={this.props.formStyles.enumBtnClass}
+                onClick={e=>this.select(opt)}
+                >
+                <i className={this.props.formStyles.enumAddSuggestClass}></i>
+                {opt}
+                </div>
+              )
+            } else {
+              return null
+            }
           }
+          else {
+            if(this.props.value.indexOf(opt.value) < 0) {
+              return (
+                <div
+                key={opt.value}
+                className={this.props.formStyles.enumBtnClass}
+                onClick={e=>this.deselect(opt.value)}
+                >
+                <i className={this.props.formStyles.enumAddSuggestClass}></i>
+                {opt.caption}
+                </div>
+              )
+            }
+            else {
+              return null
+            }
+          }
+        })
+      }
 
-        </div>
+      </div>
       </div>
     )
   }

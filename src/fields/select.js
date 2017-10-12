@@ -1,5 +1,10 @@
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
 import React from 'react'
-import formStyles from './formStyles'
 
 class Select extends React.Component {
   constructor(props) {
@@ -21,37 +26,36 @@ class Select extends React.Component {
 
     let optsValues = (!!options.enum) ? options.enum : []
 
-
+    
     return (
       <select
-        ref={name}
-        className={formStyles.selectClass}
-        value={value}
-        onChange={e => this.updateValue(e)}
+      className={this.props.formStyles.selectClass}
+      value={value}
+      onChange={e => this.updateValue(e)}
       >
-        <option value="">{placeholder}</option>
-        {optsValues.map(opt => {
-          if(typeof opt === "string") {
-            return (
-              <option
-                key={opt}
-                value={opt}>
-              {opt.substr(0, 1).toUpperCase() + opt.substr(1, opt.length).toLowerCase()}
-              </option>)
+      <option value="">{placeholder}</option>
+      {optsValues.map(opt => {
+        if(typeof opt === "string") {
+          return (
+            <option
+            key={opt}
+            value={opt}>
+            {opt.substr(0, 1).toUpperCase() + opt.substr(1, opt.length).toLowerCase()}
+            </option>)
           }
           else {
             return (
               <option
-                key={opt.value}
-                value={opt.value}>
-                {opt.caption}
+              key={opt.value}
+              value={opt.value}>
+              {opt.caption}
               </option>)
-          }
-        })}
-      </select>
-    )
-  }
+            }
+          })}
+          </select>
+        )
+      }
 
-}
+    }
 
 export default Select

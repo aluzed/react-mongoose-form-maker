@@ -1,5 +1,10 @@
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
 import React from 'react'
-import formStyles from './formStyles'
 
 const INPUT_RULES = {
   MINLENGTH   : 0,
@@ -11,7 +16,7 @@ const INPUT_RULES = {
   REQUIRED    : 6
 }
 
-class Input extends React.Component {
+class Textarea extends React.Component {
   constructor(props) {
     super(props)
 
@@ -23,44 +28,44 @@ class Input extends React.Component {
 
   checkRules(e) {
     let currentInput = e.target,
-        errorCounter = 0,
-        d = {},
-        currentVal = currentInput.value
+    errorCounter = 0,
+    d = {},
+    currentVal = currentInput.value
 
     this.rules.forEach(r => {
       switch(r.type) {
         case INPUT_RULES.MINLENGTH :
-          d = r.details
-          if(currentVal.length < d.value)
-            errorCounter++
-          break
+        d = r.details
+        if(currentVal.length < d.value)
+        errorCounter++
+        break
 
         case INPUT_RULES.MAXLENGTH :
-          d = r.details
-          currentVal = currentVal.substr(0, d.value)
-          break
+        d = r.details
+        currentVal = currentVal.substr(0, d.value)
+        break
 
         case INPUT_RULES.ONLYNUMERIC :
-          if(isNaN(currentVal)) {
-            if(currentVal.length > 0) {
-              currentVal = currentVal.substr(0, currentVal.length-1)
-            }
+        if(isNaN(currentVal)) {
+          if(currentVal.length > 0) {
+            currentVal = currentVal.substr(0, currentVal.length-1)
           }
-          break
+        }
+        break
 
         case INPUT_RULES.REQUIRED :
-          if(currentVal === "")
-            errorCounter++
-          break
+        if(currentVal === "")
+        errorCounter++
+        break
 
         default:
-          break
+        break
       }
     })
 
     (errorCounter > 0) ?
-      this.setState({haveError: true}) :
-      this.setState({haveError: false})
+    this.setState({haveError: true}) :
+    this.setState({haveError: false})
 
     this.props.updateStateValues(this.props.name, currentVal)
   }
@@ -84,19 +89,18 @@ class Input extends React.Component {
       })
     }
 
-    let classNames = (hasError) ? formStyles.textareaErrorClass : formStyles.textareaClass
-
+    let classNames = (hasError) ? this.props.formStyles.textareaErrorClass : this.props.formStyles.textareaClass
+    
     return (
       <textarea
-        ref={name}
-        type="text"
-        className={classNames}
-        value={value}
-        placeholder={placeholder}
-        onChange={e => this.checkRules(e)}></textarea>
+      type="text"
+      className={classNames}
+      value={value}
+      placeholder={placeholder}
+      onChange={e => this.checkRules(e)}></textarea>
     )
   }
 
 }
 
-export default Input
+export default Textarea

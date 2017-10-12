@@ -1,3 +1,4 @@
 .vscode
 .git
 example
+node_modules

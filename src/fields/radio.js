@@ -1,5 +1,10 @@
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
 import React from 'react'
-import formStyles from './formStyles'
 
 class Radio extends React.Component {
   constructor(props) {
@@ -16,39 +21,37 @@ class Radio extends React.Component {
     let optsValues = (!!options.enum) ? options.enum : []
 
     return (
-      <div className={formStyles.radioGroupClass}>
-        {
-          optsValues.map(opt => {
-            if(typeof opt === "string") {
-              return (
-                <span key={opt} className={formStyles.radioContainerClass}>
-                  <input
-                    ref={name}
-                    type="radio"
-                    className={formStyles.radioClass}
-                    value={opt}
-                    onChange={e => this.changedValue(e)}
-                  />
-                  {opt}
-                </span>
-              )
-            }
-            else {
-              return (
-                <span key={opt.value} className={formStyles.radioContainerClass}>
-                  <input
-                    ref={name}
-                    type="radio"
-                    className={formStyles.radioClass}
-                    value={opt.value}
-                    onChange={e => this.changedValue(e)}
-                  />
-                  {opt.caption}
-                </span>
-              )
-            }
-          })
-        }
+      <div className={this.props.formStyles.radioGroupClass}>
+      {
+        optsValues.map(opt => {
+          if(typeof opt === "string") {
+            return (
+              <span key={opt} className={this.props.formStyles.radioContainerClass}>
+              <input
+              type="radio"
+              className={this.props.formStyles.radioClass}
+              value={opt}
+              onChange={e => this.changedValue(e)}
+              />
+              {opt}
+              </span>
+            )
+          }
+          else {
+            return (
+              <span key={opt.value} className={this.props.formStyles.radioContainerClass}>
+              <input
+              type="radio"
+              className={this.props.formStyles.radioClass}
+              value={opt.value}
+              onChange={e => this.changedValue(e)}
+              />
+              {opt.caption}
+              </span>
+            )
+          }
+        })
+      }
       </div>
     )
   }

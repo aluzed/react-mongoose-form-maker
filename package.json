@@ -1,14 +1,13 @@
 {
   "name": "react-mongoose-form-maker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate a form from Mongoose Metadata",
-  "main": "src/index.js",
-  "author": "Alexandre PENOMBRE",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/aluzed/react-mongoose-form-maker.git"
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": "git+https://github.com/aluzed/react-mongoose-form-maker.git",
   "keywords": [
     "React",
     "Metadata",
@@ -17,11 +16,27 @@
     "Mongoose",
     "API"
   ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "author": "Alexandre PENOMBRE",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/aluzed/react-mongoose-form-maker/issues"
   },
-  "homepage": "https://github.com/aluzed/react-mongoose-form-maker#readme"
+  "homepage": "https://github.com/aluzed/react-mongoose-form-maker#readme",
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "lodash-node": "^3.10.2"
+  },
+  "dependencies": {
+    "react": "^16.0.0",
+    "lodash-node": "^3.10.2",
+    "webpack": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.5.1"
+  }
 }

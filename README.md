@@ -1,6 +1,14 @@
 # FormMaker
 
-## Preparation
+This project wants to make easy the creation and integration of new model to our projects.
+It will help us to create new model, generate associated forms and list table in a near future.
+
+## Dependencies
+
+You will need express and mongoose-metadata package :
+`npm install mongoose-metadata`
+
+## Routing
 
 Work with mongoose model. On your api, create a route 'metadata' for a given model :
 ```javascript
@@ -20,130 +28,27 @@ app.get('/pets/metadata', Metadata.meta('Pet'))
 
 By default not all kind of field will be displayed on client side. Here is the list of disabled fields :
 
-* __v
-* _id
-* created_at
-* updated_at
-
-So, for those fields, you would not get a form input client side.
-
-## Model Options
-
-In the mongoose model :
-```javascript
-let petSchema = new Schema({
-  name        : {type: String, required: true, placeholder: "Name of the animal"},
-  kind        : {
-    type: String,
-    enum: ['Lion', 'Cat', 'Dog', 'Rabbit', 'Bird', 'Duck'],
-    placeholder: "Type of animal" // Placeholder
-  },
-  description : {
-    type: String,
-    placeholder: "Enter the description",
-    forceField: "textarea" // Force generation of a textarea instead of a input type text
-  }
-  weight      : {type: Number},
-  vaccined    : {type: Boolean},
-  created_at  : {type: Date, default: Date.now},
-  updated_at  : {type: Date}
-})
-
-module.exports = mongoose.model('Pet', petSchema)
+```
+__v
+_id
+created_at
+updated_at
 ```
 
-### List of field types
+## API
 
-* Text
-```javascript
-// In mongoose model
-let petSchema = new Schema({
-  name : {  
-    type: String,
-    required: true,
-    placeholder: "Nom de l'animal"
-  }
-})
-```
-
-* Numeric
-```javascript
-// In mongoose model
-let petSchema = new Schema({
-  weight : { type: Number }
-})
-```
-
-* type: Boolean, checkbox
-```javascript
-// In mongoose model
-let petSchema = new Schema({
-  weight : { type: Number }
-})
-```
-
-* Enum : displays select input as default
-```javascript
-// In mongoose model
-let petSchema = new Schema({
-  kind : {
-    type: String,
-    enum: ['Lion', 'Cat', 'Dog', 'Rabbit', 'Bird', 'Duck'],
-    placeholder: "Type"
-  }
-})
-```
-
-* Textarea
-```javascript
-// In mongoose model
-let petSchema = new Schema({
-  description : {
-    type: String,
-    forceField: "textarea"
-  }
-})
-```
-
-* Radio
-```javascript
-// In mongoose model
-let petSchema = new Schema({
-  kind : {
-    type: String,
-    enum: ['Lion', 'Cat', 'Dog', 'Rabbit', 'Bird', 'Duck'],
-    placeholder: "Type",
-    forceField: "radio"
-  }
-})
-```
-
-* Foreign Key
-
-## Create multiple forms
-```javascript
-// First of all, import the module
-const Metadata = require('/path/to/metadata.js')
-
-// Add meta fields
-// Here, we disabled kind and vaccined fields
-app.get('/pets/meta_add', Metadata.meta('Pet', { filter: ['kind', 'vaccined'] }))
-
-// Edit meta fields
-// Here, we disabled name field
-app.get('/pets/meta_edit', Metadata.meta('Pet', { filter: ['name'] }))
-```
+You have to customize a bit your mongoose model file.
+For the API part, please read and get packages : [here](https://github.com/aluzed/mongoose-metadata)
 
 ## Views
-
-That's it for the API.
 
 Now on the client side react project :
 
 ### Add Form
 
 ```javascript
-import FormMaker from '../Forms/formMaker'
+import _FormMaker from '../Forms/formMaker'
+FormMaker = _FormMaker()
 
 // Now in the render
 render() {
@@ -161,7 +66,8 @@ return <FormMaker
 ### Edit Form
 
 ```javascript
-import FormMaker from '../Forms/formMaker'
+import _FormMaker from '../Forms/formMaker'
+FormMaker = _FormMaker()
 
 // Now in the render
 // We just have to set values and data, will be matched automatically
@@ -182,4 +88,47 @@ return <FormMaker
 
 ## Customize style
 
-Each element got a customizable Css style or caption, look in `www/src/Forms/formStyles`, by default we use Bootstrap 4 classes.
+Each element got a customizable Css style or caption. By default we use Bootstrap 4 classes and Ionicons.
+
+```javascript
+// You can customize any styles with a custom file ./<name>.js
+
+export default {
+  formClass: 'container-fluid mt-3',
+  formHeaderClass: 'container-fluid text-center',
+  formFooterClass: 'container-fluid text-right',
+  submitFormBtnClass: 'btn btn-success',
+  submitFormBtnCaption: ' Submit',
+  submitFormBtnIcon: 'ion ion-checkmark',
+  cancelFormBtnClass: 'btn btn-danger ml-2',
+  cancelFormBtnCaption: ' Cancel',
+  cancelFormBtnIcon: 'ion ion-close',
+  formGroupClass: 'form-group',
+  labelClass: '',
+  textareaClass: 'form-control',
+  textareaErrorClass: 'form-control form-error',
+  inputClass: 'form-control',
+  inputErrorClass: 'form-control form-error',
+  selectClass: 'form-control',
+  enumListContainerClass: 'row',
+  enumListLeftClass: 'col-xs-12 col-sm-6 col-md-6 col-lg-6',
+  enumDescription: 'Click on a value to add it',
+  enumAddSuggestBtn: 'btn btn-default suggest-add',
+  enumAddSuggestClass: 'ion ion-plus enum-suggest',
+  enumRemoveSuggestBtn: 'btn btn-default suggest-remove',
+  enumRemoveSuggestClass: 'ion ion-close enum-suggest',
+  checkboxClass: '',
+  checkboxGroupClass: 'container-fluid',
+  radioContainerClass: 'px-3',
+  radioClass: '',
+  radioGroupClass: 'container-fluid'
+}
+
+// And then when you initialize your new FormMaker : ./App.js
+
+import _FormMaker from 'react-mongoose-form-maker'
+import customStylesheets from './path/to/custom/styles.js'
+const FormMaker = _FormMaker(customStylesheets)
+
+// And then use FormMaker component as usual...
+```
