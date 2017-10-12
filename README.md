@@ -8,45 +8,32 @@ It will help us to create new model, generate associated forms and list table in
 You will need express and mongoose-metadata package :
 `npm install mongoose-metadata`
 
-## Routing
 
-Work with mongoose model. On your api, create a route 'metadata' for a given model :
-```javascript
-// First of all, import the module
-const path = require('path')
-const Metadata = require('mongoose-metadata')
+## API and Routing
 
-// Load Models
-Metadata.loadModels(path.join(__dirname, './models'))
+You have to customize a bit your mongoose model file.
+For the API part, please read and get packages : [here](https://github.com/aluzed/mongoose-metadata)
 
-// Let's use a model pet
-// We need to use the meta middleware : Metadata.meta('<modelName>')
-app.get('/pets/metadata', Metadata.meta('Pet'))
-```
 
-### Disabled fields
+## Disabled fields
 
 By default not all kind of field will be displayed on client side. Here is the list of disabled fields :
 
-```
+```javascript
 __v
 _id
 created_at
 updated_at
 ```
 
-## API
-
-You have to customize a bit your mongoose model file.
-For the API part, please read and get packages : [here](https://github.com/aluzed/mongoose-metadata)
-
 ## Views
 
-Now on the client side react project :
+Now on the client side react project in your React Component :
 
 ### Add Form
 
 ```javascript
+// in <Component>.js
 import _FormMaker from '../Forms/formMaker'
 FormMaker = _FormMaker()
 
