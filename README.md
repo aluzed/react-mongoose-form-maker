@@ -127,7 +127,7 @@ const FormMaker = _FormMaker(customStylesheets)
 * Boolean
 
 
-*select* : if your field contains an 'enum' field, it <select> will be displayed by default
+**select** : if your field contains an 'enum' field, it <select> will be displayed by default
 
 ## Force Field
 
