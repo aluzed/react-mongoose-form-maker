@@ -53,7 +53,7 @@
     "mongodb": "^2.2.31",
     "mongodb-core": "^2.1.15",
     "mongoose": "^4.11.13",
-    "mongoose-metadata": "^1.0.0",
+    "mongoose-metadata": "^1.0.3",
     "mpath": "^0.3.0",
     "mpromise": "^0.5.5",
     "mquery": "^2.3.1",
@@ -94,6 +94,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alexandre PENOMBRE",

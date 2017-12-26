@@ -1,3 +1,9 @@
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
 "use strict";
 const express = require('express');
 const app = express();
@@ -30,7 +36,7 @@ app.get('/pets/meta_edit', Metadata.meta('Pet', {
 }));
 
 app.get('/pets', (req, res) => {
-  PetModel.find({}, (err, docs) => {
+  mongoose.model('Pet').find({}, (err, docs) => {
     if(err)
       return res.status(500).send(err);
 

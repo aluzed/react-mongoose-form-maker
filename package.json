@@ -23,12 +23,13 @@
   },
   "homepage": "https://github.com/aluzed/react-mongoose-form-maker#readme",
   "peerDependencies": {
-    "react": "^16.0.0",
-    "lodash-node": "^3.10.2"
+    "lodash-node": "^3.10.2",
+    "react": "^16.0.0"
   },
   "dependencies": {
-    "react": "^16.0.0",
     "lodash-node": "^3.10.2",
+    "moment": "^2.20.1",
+    "react": "^16.0.0",
     "webpack": "^2.6.1"
   },
   "devDependencies": {

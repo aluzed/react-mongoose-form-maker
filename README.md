@@ -119,3 +119,55 @@ const FormMaker = _FormMaker(customStylesheets)
 
 // And then use FormMaker component as usual...
 ```
+
+## List of types
+
+* String
+* Number
+* Boolean
+
+
+*select* : if your field contains an 'enum' field, it <select> will be displayed by default
+
+## Force Field
+
+You can change the display behaviour by using forceField option
+
+* array : displays an enum list
+* radio
+* date : displays a text input with calendar picker
+* email : displays a text input with email rules
+* text : displays a textarea
+
+## List of rules
+
+### Input String
+
+| Rule name | Data type | Details        |
+|-----------|:----------|:---------------|
+| minlength | Number    | Min characters |
+| maxLength | Number    | Max characters |
+
+### Input Number
+
+| Rule name | Data type                           | Details         |
+|-----------|:------------------------------------|:----------------|
+| min       | Number                              | Min value       |
+| max       | Number                              | Max value       |
+| between   | Object { min: Number, max: Number } | Range of values |
+
+### Input Date
+
+| Rule name | Data type                               | Details         |
+|-----------|:----------------------------------------|:----------------|
+| minDate   | Date                                    | Min value       |
+| maxDate   | Date                                    | Max value       |
+| between   | Object { minDate: Date, maxDate: Date } | Range of values |
+
+### Input Array
+
+| Rule name | Data type                           | Details          |
+|-----------|:------------------------------------|:-----------------|
+| min       | Number                              | Min array length |
+| max       | Number                              | Max array length |
+| between   | Object { min: Number, max: Number } | Range of length  |

@@ -20,14 +20,9 @@ class FormInput extends React.Component {
   }
 
   render() {
-    let { type } = this.props
-    const { label, name, value, options, updateStateValues } = this.props
+    const { label, name, value, options, updateStateValues, type } = this.props
 
     let field = null
-
-    // The option.forceField override the current field type
-    if(!!options.forceField)
-    type = options.forceField.toLowerCase()
 
     // Check if it has an enum
     if(!!options.enum) {
@@ -35,35 +30,41 @@ class FormInput extends React.Component {
         case "array":
         field = (
           <EnumList
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
-          break
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
+        break
 
         case "radio" :
         field = (
           <Radio
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
-            break
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
+        break
 
         default :
         field = (
           <Select
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
-            break
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
+        break
       }
     }
     else {
@@ -71,82 +72,95 @@ class FormInput extends React.Component {
         case "boolean":
         field = (
           <Checkbox
-          name={name}
-          options={options}
-          value={value !== null ? value : false}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
+            name={name}
+            options={options}
+            value={value !== null ? value : false}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
         break
 
         case "string":
         field = (
           <Input
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
         break
 
         case "number":
         options.constraints.push({type: 'ONLYNUMERIC'})
         field = (
           <Input
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />
-        )
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            isNumber={true}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
         break
 
         case "email":
         options.constraints.push({type: 'ISEMAIL'})
         field = (
           <Input
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />
-        )
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
         break
 
         case "text":
         field = (
           <Textarea
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
         break
 
         case "date":
         field = (
           <DateField
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
         break
 
         default :
         field = (
           <Input
-          name={name}
-          options={options}
-          value={value !== null ? value : ""}
-          formStyles={this.props.formStyles}
-          updateStateValues={updateStateValues}
-          />)
+            name={name}
+            options={options}
+            value={value !== null ? value : ""}
+            formStyles={this.props.formStyles}
+            updateStateValues={updateStateValues}
+            dispatchError={this.props.dispatchError}
+            removeError={this.props.removeError}
+            />)
           break
       }
     }
@@ -154,15 +168,15 @@ class FormInput extends React.Component {
     let tmpLabel = label
 
     if(label.length > 1)
-    tmpLabel = label.substr(0, 1).toUpperCase() + label.substr(1, label.length).toLowerCase()
+      tmpLabel = label.substr(0, 1).toUpperCase() + label.substr(1, label.length).toLowerCase()
 
     return (
       <div className={this.props.formStyles.formGroupClass}>
-      <label htmlFor={name} className={this.props.formStyles.labelClass}>
-      {tmpLabel}
-      </label>
+        <label htmlFor={name} className={this.props.formStyles.labelClass}>
+          {tmpLabel}
+        </label>
 
-      {field}
+        {field}
       </div>
     )
   }

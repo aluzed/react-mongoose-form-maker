@@ -5,12 +5,7 @@
 * <aluzed_AT_gmail.com>
 */
 import React from 'react'
-
-const INPUT_RULES = {
-  MINDATE   : 0,
-  MAXDATE   : 1,
-  BEETWEEN  : 2
-}
+import { INPUT_RULES, Verify } from '../rules/dateRules';
 
 class DateField extends React.Component {
   constructor(props) {
@@ -23,38 +18,28 @@ class DateField extends React.Component {
   }
 
   checkRules(e) {
-    let currentInput = e.target,
-    errorCounter = 0,
-    d = {},
-    currentVal = currentInput.value
+    let currentValue = currentInput.value
 
     if(!!this.rules.forEach) {
       this.rules.forEach(r => {
-        switch(r.type) {
-          case INPUT_RULES.MINDATE :
-          d = r.details
-          if(currentVal.length < d.value)
-          errorCounter++
-          break
-          case INPUT_RULES.MAXDATE :
-          d = r.details
-          currentVal = currentVal.substr(0, d.value)
-          break
-          case INPUT_RULES.BEETWEEN :
-          d = r.details
-          currentVal = parseFloat(currentVal, 10)
+        let v = Verify(r.type, r.details, currentValue)
 
-          // If the size of the string is lower than d.min or greater than d.max
-          if(!(currentVal < d.max) || !(currentVal > d.min))
-          errorCounter++
-          break
-          default:
-          break
+        // If at least one rule has been infringed
+        if(!v.validation) {
+          // Display error on our input
+          this.setState({ hasError: true })
+
+          // Send error message to the form container
+          this.props.dispatchError(this.props.name, v.message)
+
+          return;
         }
+
+        // Has no error
+        this.setState({ hasError: false })
       })
     }
 
-    (errorCounter > 0) ? this.setState({haveError: true}) : this.setState({haveError: false})
     this.props.updateStateValues(this.props.name, currentVal)
   }
 
@@ -85,12 +70,12 @@ class DateField extends React.Component {
 
     return (
       <input
-      type="text"
-      className={classNames}
-      value={value}
-      placeholder={placeholder}
-      onChange={e => this.checkRules(e)}
-      />
+        type="text"
+        className={classNames}
+        value={value}
+        placeholder={placeholder}
+        onChange={e => this.checkRules(e)}
+        />
     )
   }
 

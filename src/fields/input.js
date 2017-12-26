@@ -6,16 +6,7 @@
 */
 import React from 'react'
 
-const INPUT_RULES = {
-  MINLENGTH   : 0,
-  MAXLENGTH   : 1,
-  ONLYNUMERIC : 2,
-  BEETWEEN    : 3,
-  GREATERTHAN : 4,
-  LOWERTHAN   : 5,
-  REQUIRED    : 6,
-  ISEMAIL     : 7
-}
+import { INPUT_RULES, Verify } from '../rules/textRules';
 
 class Input extends React.Component {
   constructor(props) {
@@ -24,77 +15,59 @@ class Input extends React.Component {
     this.state = {
       hasError : false
     }
+
     this.rules = []
   }
 
   checkRules(e) {
-    let currentInput = e.target,
-    errorCounter = 0,
-    d = {},
-    currentVal = currentInput.value
+    let currentValue = e.target.value
 
     if(!!this.rules.forEach) {
       this.rules.forEach(r => {
+
+        // Handle behaviours
         switch(r.type) {
-          case INPUT_RULES.MINLENGTH :
-          d = r.details
-          if(currentVal.length < d.value) errorCounter++
-          break
-
-          case INPUT_RULES.MAXLENGTH :
-          d = r.details
-          currentVal = currentVal.substr(0, d.value)
-          break
-
           case INPUT_RULES.ONLYNUMERIC :
-          if(isNaN(currentVal)) {
-            if(currentVal.length > 0) currentVal = currentVal.substr(0, currentVal.length-1)
-          }
-          break
-
-          case INPUT_RULES.BEETWEEN :
-          d = r.details
-          currentVal = parseFloat(currentVal, 10)
-
-          // If the size of the string is lower than d.min or greater than d.max
-          if(!(currentVal < d.max) || !(currentVal > d.min)) errorCounter++
-          break
-
-          case INPUT_RULES.GREATERTHAN :
-          d = r.details
-          currentVal = parseFloat(currentVal, 10)
-
-          if(currentVal < d.value) errorCounter++
-          break
-
-          case INPUT_RULES.LOWERTHAN :
-          d = r.details
-          currentVal = parseFloat(currentVal, 10)
-
-          if(currentVal > d.value) errorCounter++
-          break
-
-          case INPUT_RULES.REQUIRED :
-          if(currentVal === "") errorCounter++
-          break
-
-          case INPUT_RULES.ISEMAIL :
-          if(!currentVal.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)) errorCounter++
-          break
-
-          default:
+            if(isNaN(currentValue) && currentValue.length > 0) {
+              currentValue = currentValue.substring(0, (currentValue.length - 1))
+              e.target.value = currentValue
+            }
           break
         }
+
+        // Call verify method from ../rules/textRules
+        let v = Verify(r.type, r.details, currentValue)
+
+        // If at least one rule has been infringed
+        if(!v.validation) {
+          // Display error on our input
+          this.setState({ hasError: true })
+
+          // Send error message to the form container
+          this.props.dispatchError(this.props.name, v.message)
+
+          return
+        }
+        else {
+          this.props.removeError(this.props.name)
+
+          // Has no error
+          this.setState({ hasError: false })
+        }
+
       })
     }
 
-    (errorCounter > 0) ? this.setState({haveError: true}) : this.setState({haveError: false})
-    this.props.updateStateValues(this.props.name, currentVal)
+    if(!!this.props.isNumber)
+      currentValue = parseFloat(currentValue);
+
+    this.props.updateStateValues(this.props.name, currentValue)
   }
 
   render() {
     const { name, value, options } = this.props
     const { hasError } = this.state
+    let extraProps = {}
 
     let placeholder = (!!options.placeholder) ? options.placeholder : name
 
@@ -111,6 +84,10 @@ class Input extends React.Component {
             details : constraint.details
           }
           this.rules.push(rule)
+
+
+          if(r.type === INPUT_RULES.MAXLENGTH)
+            extraProps.maxlength = r.details.value;
         }
       })
     }
@@ -119,12 +96,12 @@ class Input extends React.Component {
 
     return (
       <input
-      type="text"
-      className={classNames}
-      value={value}
-      placeholder={placeholder}
-      onChange={e => this.checkRules(e)}
-      />
+        type="text"
+        className={classNames}
+        value={value}
+        placeholder={placeholder}
+        onChange={e => this.checkRules(e)}
+        />
     )
   }
 

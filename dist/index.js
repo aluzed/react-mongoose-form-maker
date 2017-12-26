@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -83,6 +83,155 @@ module.exports = require("react");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
+var INPUT_RULES = {
+  MIN: 0,
+  MAX: 1,
+  BEETWEEN: 2,
+  VALIDATE: 3
+};
+
+var Verify = function Verify(ruleName, details, value) {
+  switch (r.type) {
+    case INPUT_RULES.MIN:
+      if (value.length < details.value) return { validation: false, message: "length must be geater than " + details.value };
+      break;
+    case INPUT_RULES.MAX:
+      if (value.length > details.value) return { validation: false, message: "length must be lower than " + details.value };
+      break;
+    case INPUT_RULES.BEETWEEN:
+      if (value.length > details.max || value.length < details.min) return { validation: false, message: "length must be lower than " + details.max + " and geater than " + details.min };
+      break;
+    case VALIDATE:
+      if (!details.validate(value)) return {
+        validation: false,
+        message: details.message ? details.message : "validation failed"
+      };
+      break;
+
+    default:
+      break;
+  }
+};
+
+exports.default = { INPUT_RULES: INPUT_RULES, Verify: Verify };
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
+var INPUT_RULES = {
+  MINLENGTH: 0,
+  MAXLENGTH: 1,
+  ONLYNUMERIC: 2,
+  BEETWEEN: 3,
+  GREATERTHAN: 4,
+  LOWERTHAN: 5,
+  REQUIRED: 6,
+  ISEMAIL: 7,
+  VALIDATE: 8
+};
+
+var Verify = function Verify(ruleName, details, value) {
+  switch (ruleName) {
+    case INPUT_RULES.MINLENGTH:
+      if (value.length < details.value) return {
+        validation: false,
+        message: details.message ? details.message : "must be longer than " + details.value + " characters."
+      };
+      break;
+
+    case INPUT_RULES.MAXLENGTH:
+      if (value.length < details.value) return {
+        validation: false,
+        message: details.message ? details.message : "must be smaller than " + details.value + " characters."
+      };
+      break;
+
+    case INPUT_RULES.BEETWEEN:
+      value = parseFloat(value);
+
+      // If the size of the string is lower than d.min or greater than d.max
+      if (!(value < details.max) || !(value > details.min)) return {
+        validation: false,
+        message: details.message ? details.message : "must be > " + details.min + " and < " + details.max + "."
+      };
+      break;
+
+    case INPUT_RULES.GREATERTHAN:
+      value = parseFloat(value);
+
+      if (value < details.value) return {
+        validation: false,
+        message: details.message ? details.message : "must be greater than " + details.value + "."
+      };
+      break;
+
+    case INPUT_RULES.LOWERTHAN:
+      value = parseFloat(value);
+
+      if (value > details.value) return {
+        validation: false,
+        message: details.message ? details.message : "must be lower than " + details.value + "."
+      };
+      break;
+
+    case INPUT_RULES.REQUIRED:
+      if (value === "") return {
+        validation: false,
+        message: details.message ? details.message : "is required"
+      };
+      break;
+
+    case INPUT_RULES.ISEMAIL:
+      if (!value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)) return {
+        validation: false,
+        message: "must be a valid email."
+      };
+      break;
+
+    case INPUT_RULES.VALIDATE:
+      if (details.validator(value) === false) return {
+        validation: false,
+        message: details.message ? details.message : "validation failed"
+      };
+      break;
+
+    default:
+      return { validation: true };
+      break;
+  }
+};
+
+exports.default = { INPUT_RULES: INPUT_RULES, Verify: Verify };
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -90,31 +239,31 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _input = __webpack_require__(6);
+var _input = __webpack_require__(9);
 
 var _input2 = _interopRequireDefault(_input);
 
-var _enumList = __webpack_require__(5);
+var _enumList = __webpack_require__(8);
 
 var _enumList2 = _interopRequireDefault(_enumList);
 
-var _select = __webpack_require__(8);
+var _select = __webpack_require__(11);
 
 var _select2 = _interopRequireDefault(_select);
 
-var _textarea = __webpack_require__(9);
+var _textarea = __webpack_require__(12);
 
 var _textarea2 = _interopRequireDefault(_textarea);
 
-var _radio = __webpack_require__(7);
+var _radio = __webpack_require__(10);
 
 var _radio2 = _interopRequireDefault(_radio);
 
-var _checkbox = __webpack_require__(3);
+var _checkbox = __webpack_require__(6);
 
 var _checkbox2 = _interopRequireDefault(_checkbox);
 
-var _datefield = __webpack_require__(4);
+var _datefield = __webpack_require__(7);
 
 var _datefield2 = _interopRequireDefault(_datefield);
 
@@ -144,19 +293,16 @@ var FormInput = function (_React$Component) {
   _createClass(FormInput, [{
     key: 'render',
     value: function render() {
-      var type = this.props.type;
       var _props = this.props,
           label = _props.label,
           name = _props.name,
           value = _props.value,
           options = _props.options,
-          updateStateValues = _props.updateStateValues;
+          updateStateValues = _props.updateStateValues,
+          type = _props.type;
 
 
       var field = null;
-
-      // The option.forceField override the current field type
-      if (!!options.forceField) type = options.forceField.toLowerCase();
 
       // Check if it has an enum
       if (!!options.enum) {
@@ -167,7 +313,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -177,7 +325,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -187,7 +337,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
         }
@@ -199,7 +351,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : false,
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -209,7 +363,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -220,7 +376,10 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              isNumber: true,
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -231,7 +390,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -241,7 +402,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -251,7 +414,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
 
@@ -261,7 +426,9 @@ var FormInput = function (_React$Component) {
               options: options,
               value: value !== null ? value : "",
               formStyles: this.props.formStyles,
-              updateStateValues: updateStateValues
+              updateStateValues: updateStateValues,
+              dispatchError: this.props.dispatchError,
+              removeError: this.props.removeError
             });
             break;
         }
@@ -290,7 +457,7 @@ var FormInput = function (_React$Component) {
 exports.default = FormInput;
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -337,7 +504,267 @@ exports.default = {
 };
 
 /***/ }),
-/* 3 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (field, values) {
+  // Constraints are all the rules that can change the behaviour of our component
+  var options = {
+    constraints: [],
+    placeholder: field.label || field.path
+
+    // default value
+  };var value = null;
+
+  // details, error messages...
+  var details = {};
+
+  // current field type
+  var type = !!field.options.forceField ? field.options.forceField : field.instance.toLowerCase();
+
+  if (!!field.options) {
+    // If the field is required
+    if (field.options.required) {
+
+      // Check if it got its custom error message
+      if (typeof field.options.required.length !== 'undefined') {
+        if (field.options.required.length >= 2) {
+          // Get the error message
+          details.message = field.options.required[1];
+        }
+      }
+      options.constraints.push({
+        type: 'REQUIRED',
+        details: details
+      });
+    }
+
+    // If the field contains a placeholder
+    if (!!field.options.placeholder) options.placeholder = field.options.placeholder;
+
+    // If the field
+    if (!!field.options.default) value = field.options.default;
+
+    // Depending on custom type, applying rules
+    // Handling default rules
+    switch (type) {
+      case "number":
+        // MIN
+        if (field.options.min) {
+          // Check if it got its custom error message
+          if (typeof field.options.min.length !== 'undefined') {
+            if (typeof field.options.min[0] !== "Number") throw new Error('Error, first min parameter must be type of Number in mongoose model');
+
+            if (field.options.min.length >= 2) {
+              // Get the error message
+              details.message = field.options.min[1];
+              details.value = field.options.min[0];
+            } else {
+              details.value = field.options.min[0];
+            }
+          } else {
+            details.value = field.options.min;
+          }
+
+          options.constraints.push({
+            type: 'GREATERTHAN',
+            details: details
+          });
+        }
+
+        // MAX
+        if (field.options.max) {
+          // Check if it got its custom error message
+          if (typeof field.options.max.length !== 'undefined') {
+            if (typeof field.options.max[0] !== "Number") throw new Error('Error, first max parameter must be type of Number in mongoose model');
+
+            if (field.options.max.length >= 2) {
+              // Get the error message
+              details.message = field.options.max[1];
+              details.value = field.options.max[0];
+            } else {
+              details.value = field.options.max[0];
+            }
+          } else {
+            details.value = field.options.max;
+          }
+
+          options.constraints.push({
+            type: 'LOWERTHAN',
+            details: details
+          });
+        }
+
+        // BETWEEN
+        if (!!field.options.between) {
+          options.constraints.push({
+            type: 'BETWEEN',
+            details: {
+              min: field.options.between.min,
+              max: field.options.between.max
+            }
+          });
+        }
+        break;
+
+      case "string":
+        // MINLENGTH
+        if (field.options.minLength) {
+          if (typeof field.options.minLength[0] !== "Number") {
+            throw new Error('Error, first minLength parameter must be type of Number in mongoose model');
+
+            if (field.options.minLength.length >= 2) {
+              // Get the error message
+              details.message = field.options.minLength[1];
+              details.value = field.options.minLength[0];
+            } else {
+              details.value = field.options.minLength[0];
+            }
+          } else {
+            details.value = field.options.minLength;
+          }
+
+          options.constraints.push({
+            type: 'MINLENGTH',
+            details: details
+          });
+        }
+
+        // MAXLENGTH
+        if (field.options.maxLength) {
+          if (typeof field.options.maxLength[0] !== "Number") {
+            throw new Error('Error, first maxLength parameter must be type of Number in mongoose model');
+
+            if (field.options.maxLength.length >= 2) {
+              // Get the error message
+              details.message = field.options.maxLength[1];
+              details.value = field.options.maxLength[0];
+            } else {
+              details.value = field.options.maxLength[0];
+            }
+          } else {
+            details.value = field.options.maxLength;
+          }
+
+          options.constraints.push({
+            type: 'MAXLENGTH',
+            details: details
+          });
+        }
+        break;
+
+      case "array":
+        // MIN
+        if (field.options.min) {
+
+          details.value = field.options.min;
+
+          options.constraints.push({
+            type: 'MIN',
+            details: details
+          });
+        }
+
+        // MAX
+        if (field.options.max) {
+
+          details.value = field.options.max;
+
+          options.constraints.push({
+            type: 'MAX',
+            details: details
+          });
+        }
+
+        // BETWEEN
+        if (!!field.options.between) {
+
+          details.min = field.options.between.min;
+          details.max = field.options.between.max;
+
+          options.constraints.push({
+            type: 'BETWEEN',
+            details: details
+          });
+        }
+        break;
+
+      case "date":
+        // MINDATE
+        if (!!field.options.minDate) {
+
+          details.value = field.options.minDate;
+
+          options.constraints.push({
+            type: 'MINDATE',
+            details: details
+          });
+        }
+
+        // MAXDATE
+        if (!!field.options.maxDate) {
+
+          details.value = field.options.maxDate;
+
+          options.constraints.push({
+            type: 'MAXDATE',
+            details: details
+          });
+        }
+
+        // BETWEEN
+        if (!!field.options.between) {
+
+          details.min = field.options.between.minDate;
+          details.max = field.options.between.maxDate;
+
+          options.constraints.push({
+            type: 'BETWEEN',
+            details: details
+          });
+        }
+        break;
+    }
+
+    // Custom validator
+    if (!!field.options.validate) {
+      if (typeof field.options.validate.validator === "string") field.options.validate.validator = eval('(' + field.options.validate.validator + ')');
+
+      // Validation test
+      details.validator = field.options.validate.validator;
+
+      // Custom message
+      if (!!field.options.validate.message) {
+        details.message = field.options.validate.message;
+      }
+
+      options.constraints.push({
+        type: 'VALIDATE',
+        details: details
+      });
+    }
+  }
+
+  // If the field contains enum
+  if (!!field.enumValues) {
+    options['enum'] = field.enumValues.length > 0 ? field.enumValues : [];
+  }
+
+  if (!!values[field.path]) value = values[field.path];
+
+  return {
+    field: field,
+    options: options,
+    value: value,
+    type: type
+  };
+};
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -411,7 +838,7 @@ var Select = function (_React$Component) {
 exports.default = Select;
 
 /***/ }),
-/* 4 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -427,6 +854,8 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _dateRules = __webpack_require__(14);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -440,12 +869,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * <aluzed_AT_gmail.com>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-
-var INPUT_RULES = {
-  MINDATE: 0,
-  MAXDATE: 1,
-  BEETWEEN: 2
-};
 
 var DateField = function (_React$Component) {
   _inherits(DateField, _React$Component);
@@ -463,44 +886,38 @@ var DateField = function (_React$Component) {
   }
 
   _createClass(DateField, [{
-    key: "checkRules",
+    key: 'checkRules',
     value: function checkRules(e) {
-      var currentInput = e.target,
-          errorCounter = 0,
-          d = {},
-          currentVal = currentInput.value;
+      var _this2 = this;
+
+      var currentValue = currentInput.value;
 
       if (!!this.rules.forEach) {
         this.rules.forEach(function (r) {
-          switch (r.type) {
-            case INPUT_RULES.MINDATE:
-              d = r.details;
-              if (currentVal.length < d.value) errorCounter++;
-              break;
-            case INPUT_RULES.MAXDATE:
-              d = r.details;
-              currentVal = currentVal.substr(0, d.value);
-              break;
-            case INPUT_RULES.BEETWEEN:
-              d = r.details;
-              currentVal = parseFloat(currentVal, 10);
+          var v = (0, _dateRules.Verify)(r.type, r.details, currentValue);
 
-              // If the size of the string is lower than d.min or greater than d.max
-              if (!(currentVal < d.max) || !(currentVal > d.min)) errorCounter++;
-              break;
-            default:
-              break;
+          // If at least one rule has been infringed
+          if (!v.validation) {
+            // Display error on our input
+            _this2.setState({ hasError: true });
+
+            // Send error message to the form container
+            _this2.props.dispatchError(_this2.props.name, v.message);
+
+            return;
           }
+
+          // Has no error
+          _this2.setState({ hasError: false });
         });
       }
 
-      errorCounter > 0 ? this.setState({ haveError: true }) : this.setState({ haveError: false });
       this.props.updateStateValues(this.props.name, currentVal);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _props = this.props,
           name = _props.name,
@@ -518,25 +935,25 @@ var DateField = function (_React$Component) {
       // If the input contains constraints
       if (!!options.constraints) {
         options.constraints.forEach(function (constraint) {
-          if (!!INPUT_RULES[constraint.type]) {
+          if (!!_dateRules.INPUT_RULES[constraint.type]) {
             var rule = {
-              type: INPUT_RULES[constraint.type],
+              type: _dateRules.INPUT_RULES[constraint.type],
               details: constraint.details
             };
-            _this2.rules.push(rule);
+            _this3.rules.push(rule);
           }
         });
       }
 
       var classNames = hasError ? this.props.formStyles.inputErrorClass : this.props.formStyles.inputClass;
 
-      return _react2.default.createElement("input", {
-        type: "text",
+      return _react2.default.createElement('input', {
+        type: 'text',
         className: classNames,
         value: value,
         placeholder: placeholder,
         onChange: function onChange(e) {
-          return _this2.checkRules(e);
+          return _this3.checkRules(e);
         }
       });
     }
@@ -548,7 +965,7 @@ var DateField = function (_React$Component) {
 exports.default = DateField;
 
 /***/ }),
-/* 5 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -564,9 +981,11 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _lodashNode = __webpack_require__(11);
+var _lodashNode = __webpack_require__(15);
 
 var _lodashNode2 = _interopRequireDefault(_lodashNode);
+
+var _enumRules = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -615,10 +1034,6 @@ var EnumList = function (_React$Component) {
           options = _props.options;
 
 
-      var optsValues = [];
-
-      if (!!options.enum) optsValues = options.enum;
-
       return _react2.default.createElement(
         'div',
         { className: this.props.formStyles.enumListContainerClass },
@@ -627,7 +1042,7 @@ var EnumList = function (_React$Component) {
           { className: this.props.formStyles.enumListLeftClass },
           this.props.formStyles.enumDescription,
           _react2.default.createElement('br', null),
-          optsValues.map(function (opt) {
+          options.enum.map(function (opt) {
             if (typeof opt === "string") {
               if (_this2.props.value.indexOf(opt) < 0) {
                 return _react2.default.createElement(
@@ -675,7 +1090,7 @@ var EnumList = function (_React$Component) {
 exports.default = EnumList;
 
 /***/ }),
-/* 6 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -690,6 +1105,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _textRules = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -705,17 +1122,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 
-var INPUT_RULES = {
-  MINLENGTH: 0,
-  MAXLENGTH: 1,
-  ONLYNUMERIC: 2,
-  BEETWEEN: 3,
-  GREATERTHAN: 4,
-  LOWERTHAN: 5,
-  REQUIRED: 6,
-  ISEMAIL: 7
-};
-
 var Input = function (_React$Component) {
   _inherits(Input, _React$Component);
 
@@ -727,80 +1133,60 @@ var Input = function (_React$Component) {
     _this.state = {
       hasError: false
     };
+
     _this.rules = [];
     return _this;
   }
 
   _createClass(Input, [{
-    key: "checkRules",
+    key: 'checkRules',
     value: function checkRules(e) {
-      var currentInput = e.target,
-          errorCounter = 0,
-          d = {},
-          currentVal = currentInput.value;
+      var _this2 = this;
+
+      var currentValue = e.target.value;
 
       if (!!this.rules.forEach) {
         this.rules.forEach(function (r) {
+
+          // Handle behaviours
           switch (r.type) {
-            case INPUT_RULES.MINLENGTH:
-              d = r.details;
-              if (currentVal.length < d.value) errorCounter++;
-              break;
-
-            case INPUT_RULES.MAXLENGTH:
-              d = r.details;
-              currentVal = currentVal.substr(0, d.value);
-              break;
-
-            case INPUT_RULES.ONLYNUMERIC:
-              if (isNaN(currentVal)) {
-                if (currentVal.length > 0) currentVal = currentVal.substr(0, currentVal.length - 1);
+            case _textRules.INPUT_RULES.ONLYNUMERIC:
+              if (isNaN(currentValue) && currentValue.length > 0) {
+                currentValue = currentValue.substring(0, currentValue.length - 1);
+                e.target.value = currentValue;
               }
               break;
+          }
 
-            case INPUT_RULES.BEETWEEN:
-              d = r.details;
-              currentVal = parseFloat(currentVal, 10);
+          // Call verify method from ../rules/textRules
+          var v = (0, _textRules.Verify)(r.type, r.details, currentValue);
 
-              // If the size of the string is lower than d.min or greater than d.max
-              if (!(currentVal < d.max) || !(currentVal > d.min)) errorCounter++;
-              break;
+          // If at least one rule has been infringed
+          if (!v.validation) {
+            // Display error on our input
+            _this2.setState({ hasError: true });
 
-            case INPUT_RULES.GREATERTHAN:
-              d = r.details;
-              currentVal = parseFloat(currentVal, 10);
+            // Send error message to the form container
+            _this2.props.dispatchError(_this2.props.name, v.message);
 
-              if (currentVal < d.value) errorCounter++;
-              break;
+            return;
+          } else {
+            _this2.props.removeError(_this2.props.name);
 
-            case INPUT_RULES.LOWERTHAN:
-              d = r.details;
-              currentVal = parseFloat(currentVal, 10);
-
-              if (currentVal > d.value) errorCounter++;
-              break;
-
-            case INPUT_RULES.REQUIRED:
-              if (currentVal === "") errorCounter++;
-              break;
-
-            case INPUT_RULES.ISEMAIL:
-              if (!currentVal.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)) errorCounter++;
-              break;
-
-            default:
-              break;
+            // Has no error
+            _this2.setState({ hasError: false });
           }
         });
       }
 
-      errorCounter > 0 ? this.setState({ haveError: true }) : this.setState({ haveError: false });
-      this.props.updateStateValues(this.props.name, currentVal);
+      if (!!this.props.isNumber) currentValue = parseFloat(currentValue);
+
+      this.props.updateStateValues(this.props.name, currentValue);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _props = this.props,
           name = _props.name,
@@ -808,6 +1194,7 @@ var Input = function (_React$Component) {
           options = _props.options;
       var hasError = this.state.hasError;
 
+      var extraProps = {};
 
       var placeholder = !!options.placeholder ? options.placeholder : name;
 
@@ -818,25 +1205,27 @@ var Input = function (_React$Component) {
       // If the input contains constraints
       if (!!options.constraints) {
         options.constraints.forEach(function (constraint) {
-          if (!!INPUT_RULES[constraint.type]) {
+          if (!!_textRules.INPUT_RULES[constraint.type]) {
             var rule = {
-              type: INPUT_RULES[constraint.type],
+              type: _textRules.INPUT_RULES[constraint.type],
               details: constraint.details
             };
-            _this2.rules.push(rule);
+            _this3.rules.push(rule);
+
+            if (r.type === _textRules.INPUT_RULES.MAXLENGTH) extraProps.maxlength = r.details.value;
           }
         });
       }
 
       var classNames = hasError ? this.props.formStyles.inputErrorClass : this.props.formStyles.inputClass;
 
-      return _react2.default.createElement("input", {
-        type: "text",
+      return _react2.default.createElement('input', {
+        type: 'text',
         className: classNames,
         value: value,
         placeholder: placeholder,
         onChange: function onChange(e) {
-          return _this2.checkRules(e);
+          return _this3.checkRules(e);
         }
       });
     }
@@ -848,7 +1237,7 @@ var Input = function (_React$Component) {
 exports.default = Input;
 
 /***/ }),
-/* 7 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -863,6 +1252,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _enumRules = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -888,12 +1279,24 @@ var Radio = function (_React$Component) {
   }
 
   _createClass(Radio, [{
-    key: "changedValue",
+    key: 'changedValue',
     value: function changedValue(e) {
+      if (!!options.constraints) {
+        var required = options.constraints.map(function (o) {
+          return o.type === 'REQUIRED';
+        });
+        if (!!required) {
+          if (e.target.value === "") {
+            this.props.dispatchError(this.props.name, "is required");
+          } else {
+            this.props.removeError(this.props.name);
+          }
+        }
+      }
       this.props.updateStateValues(this.props.name, e.target.value);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var _this2 = this;
 
@@ -906,15 +1309,15 @@ var Radio = function (_React$Component) {
       var optsValues = !!options.enum ? options.enum : [];
 
       return _react2.default.createElement(
-        "div",
+        'div',
         { className: this.props.formStyles.radioGroupClass },
         optsValues.map(function (opt) {
           if (typeof opt === "string") {
             return _react2.default.createElement(
-              "span",
+              'span',
               { key: opt, className: _this2.props.formStyles.radioContainerClass },
-              _react2.default.createElement("input", {
-                type: "radio",
+              _react2.default.createElement('input', {
+                type: 'radio',
                 className: _this2.props.formStyles.radioClass,
                 value: opt,
                 onChange: function onChange(e) {
@@ -925,10 +1328,10 @@ var Radio = function (_React$Component) {
             );
           } else {
             return _react2.default.createElement(
-              "span",
+              'span',
               { key: opt.value, className: _this2.props.formStyles.radioContainerClass },
-              _react2.default.createElement("input", {
-                type: "radio",
+              _react2.default.createElement('input', {
+                type: 'radio',
                 className: _this2.props.formStyles.radioClass,
                 value: opt.value,
                 onChange: function onChange(e) {
@@ -949,7 +1352,7 @@ var Radio = function (_React$Component) {
 exports.default = Radio;
 
 /***/ }),
-/* 8 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -964,6 +1367,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _enumRules = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -989,12 +1394,24 @@ var Select = function (_React$Component) {
   }
 
   _createClass(Select, [{
-    key: "updateValue",
-    value: function updateValue(e) {
+    key: 'changedValue',
+    value: function changedValue(e) {
+      if (!!options.constraints) {
+        var required = options.constraints.map(function (o) {
+          return o.type === 'REQUIRED';
+        });
+        if (!!required) {
+          if (e.target.value === "") {
+            this.props.dispatchError(this.props.name, "is required");
+          } else {
+            this.props.removeError(this.props.name);
+          }
+        }
+      }
       this.props.updateStateValues(this.props.name, e.target.value);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       var _this2 = this;
 
@@ -1010,26 +1427,24 @@ var Select = function (_React$Component) {
         placeholder = placeholder.substr(0, 1).toUpperCase() + placeholder.substr(1, placeholder.length).toLowerCase();
       }
 
-      var optsValues = !!options.enum ? options.enum : [];
-
       return _react2.default.createElement(
-        "select",
+        'select',
         {
           className: this.props.formStyles.selectClass,
           value: value,
           onChange: function onChange(e) {
-            return _this2.updateValue(e);
+            return _this2.changedValue(e);
           }
         },
         _react2.default.createElement(
-          "option",
-          { value: "" },
+          'option',
+          { value: '' },
           placeholder
         ),
-        optsValues.map(function (opt) {
+        options.enum.map(function (opt) {
           if (typeof opt === "string") {
             return _react2.default.createElement(
-              "option",
+              'option',
               {
                 key: opt,
                 value: opt },
@@ -1037,7 +1452,7 @@ var Select = function (_React$Component) {
             );
           } else {
             return _react2.default.createElement(
-              "option",
+              'option',
               {
                 key: opt.value,
                 value: opt.value },
@@ -1055,7 +1470,7 @@ var Select = function (_React$Component) {
 exports.default = Select;
 
 /***/ }),
-/* 9 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1071,6 +1486,8 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _textRules = __webpack_require__(2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1084,16 +1501,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * <aluzed_AT_gmail.com>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-
-var INPUT_RULES = {
-  MINLENGTH: 0,
-  MAXLENGTH: 1,
-  ONLYNUMERIC: 2,
-  BEETWEEN: 3,
-  GREATERTHAN: 4,
-  LOWERTHAN: 5,
-  REQUIRED: 6
-};
 
 var Textarea = function (_React$Component) {
   _inherits(Textarea, _React$Component);
@@ -1111,48 +1518,52 @@ var Textarea = function (_React$Component) {
   }
 
   _createClass(Textarea, [{
-    key: "checkRules",
+    key: 'checkRules',
     value: function checkRules(e) {
-      var currentInput = e.target,
-          errorCounter = 0,
-          d = {},
-          currentVal = currentInput.value;
+      var _this2 = this;
 
-      this.rules.forEach(function (r) {
-        switch (r.type) {
-          case INPUT_RULES.MINLENGTH:
-            d = r.details;
-            if (currentVal.length < d.value) errorCounter++;
-            break;
+      var currentValue = e.target.value;
 
-          case INPUT_RULES.MAXLENGTH:
-            d = r.details;
-            currentVal = currentVal.substr(0, d.value);
-            break;
+      if (!!this.rules.forEach) {
+        this.rules.forEach(function (r) {
 
-          case INPUT_RULES.ONLYNUMERIC:
-            if (isNaN(currentVal)) {
-              if (currentVal.length > 0) {
-                currentVal = currentVal.substr(0, currentVal.length - 1);
+          // Handle behaviours
+          switch (r.type) {
+            case _textRules.INPUT_RULES.ONLYNUMERIC:
+              if (isNaN(currentValue) && currentValue.length > 0) {
+                currentValue = currentValue.substring(0, currentValue.length - 1);
+                e.target.value = currentValue;
               }
-            }
-            break;
+              break;
+          }
 
-          case INPUT_RULES.REQUIRED:
-            if (currentVal === "") errorCounter++;
-            break;
+          // Call verify method from ../rules/textRules
+          var v = verify(r.type, r.details, currentValue);
 
-          default:
-            break;
-        }
-      })(errorCounter > 0) ? this.setState({ haveError: true }) : this.setState({ haveError: false });
+          // If at least one rule has been infringed
+          if (!v.validation) {
+            // Display error on our input
+            _this2.setState({ hasError: true });
 
-      this.props.updateStateValues(this.props.name, currentVal);
+            // Send error message to the form container
+            _this2.props.dispatchError(_this2.props.name, v.message);
+          } else {
+            _this2.props.removeError(_this2.props.name);
+
+            // Has no error
+            _this2.setState({ hasError: false });
+          }
+        });
+      }
+
+      if (!!this.props.isNumber) currentValue = parseFloat(currentValue);
+
+      this.props.updateStateValues(this.props.name, currentValue);
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _props = this.props,
           name = _props.name,
@@ -1165,26 +1576,29 @@ var Textarea = function (_React$Component) {
 
       // If the input contain constraints
       if (!!options.constraints) {
-        options.constraints.forEach(function (constraint) {
-          if (!!INPUT_RULES[constraint.type]) {
-            var rule = {
-              type: INPUT_RULES[constraint.type],
-              details: constraint.details
-            };
-            _this2.rules.push(rule);
-          }
-        });
+        // Check if it is an array
+        if (!!options.constraints.forEach) {
+          options.constraints.forEach(function (constraint) {
+            if (!!_textRules.INPUT_RULES[constraint.type]) {
+              var rule = {
+                type: _textRules.INPUT_RULES[constraint.type],
+                details: constraint.details
+              };
+              _this3.rules.push(rule);
+            }
+          });
+        }
       }
 
       var classNames = hasError ? this.props.formStyles.textareaErrorClass : this.props.formStyles.textareaClass;
 
-      return _react2.default.createElement("textarea", {
-        type: "text",
+      return _react2.default.createElement('textarea', {
+        type: 'text',
         className: classNames,
         value: value,
         placeholder: placeholder,
         onChange: function onChange(e) {
-          return _this2.checkRules(e);
+          return _this3.checkRules(e);
         } });
     }
   }]);
@@ -1195,7 +1609,7 @@ var Textarea = function (_React$Component) {
 exports.default = Textarea;
 
 /***/ }),
-/* 10 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1213,13 +1627,17 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _formInput = __webpack_require__(1);
+var _formInput = __webpack_require__(3);
 
 var _formInput2 = _interopRequireDefault(_formInput);
 
-var _formStyles = __webpack_require__(2);
+var _formStyles = __webpack_require__(4);
 
 var _formStyles2 = _interopRequireDefault(_formStyles);
+
+var _fieldOptionsMapper = __webpack_require__(5);
+
+var _fieldOptionsMapper2 = _interopRequireDefault(_fieldOptionsMapper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1238,6 +1656,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 exports.default = function (formStyles) {
+
+  //  Check if we need to override default CSS style
   formStyles = !!formStyles ? formStyles : _formStyles2.default;
 
   return function (_React$Component) {
@@ -1254,12 +1674,18 @@ exports.default = function (formStyles) {
         schema: _this.props.schema || {},
         values: _this.props.values || {},
         onSubmitCb: _this.props.onSubmit || void 0,
-        onCancelCb: _this.props.onCancel || void 0
+        onCancelCb: _this.props.onCancel || void 0,
+        errorMsgs: {} // Error messages to display
       };
 
       _this.updateStateValues = _this.updateStateValues.bind(_this);
+      _this.dispatchError = _this.dispatchError.bind(_this);
+      _this.removeError = _this.removeError.bind(_this);
       return _this;
     }
+
+    // Getting Schema from our api and turn it into a form
+
 
     _createClass(FormMaker, [{
       key: 'componentWillMount',
@@ -1274,17 +1700,47 @@ exports.default = function (formStyles) {
           console.error(error);
         });
       }
+
+      // callback that set our state values for each fields
+
     }, {
       key: 'updateStateValues',
       value: function updateStateValues(name, value) {
         this.setState({ values: _extends({}, this.state.values, _defineProperty({}, name, value)) });
       }
+
+      // Before executing validation callback, we need to check if every rule is respected
+
     }, {
       key: 'validate',
       value: function validate(evt) {
         evt.preventDefault();
         var body = this.state.values;
-        this.state.onSubmitCb(body);
+        var errorMsgs = this.state.errorMsgs;
+
+        for (var f in this.state.schema) {
+          if (!!this.state.schema[f].options) {
+            if (!!this.state.schema[f].options.required) {
+
+              // If the file is required but missing, cancel the validation
+              if (typeof body[f] === "undefined") {
+                this.setState({ errorMsgs: _extends({}, errorMsgs, _defineProperty({}, f, f + " is required.")) });
+                return;
+              }
+
+              if (body[f] === "") {
+                this.setState({ errorMsgs: _extends({}, errorMsgs, _defineProperty({}, f, f + " is required.")) });
+                return;
+              }
+            }
+          }
+        }
+
+        if (Object.keys(this.state.errorMsgs).length === 0) {
+          // If validate is allowed
+          this.state.onSubmitCb(body);
+          this.setState({ errorMsgs: {} });
+        }
       }
     }, {
       key: 'cancel',
@@ -1292,6 +1748,24 @@ exports.default = function (formStyles) {
         evt.preventDefault();
 
         if (window.confirm("Are you sure to cancel current form ?")) this.state.onCancelCb();
+      }
+
+      // Display the error message
+
+    }, {
+      key: 'dispatchError',
+      value: function dispatchError(field, error) {
+        this.setState({ errorMsgs: {} });
+      }
+
+      // Hide the error message
+
+    }, {
+      key: 'removeError',
+      value: function removeError(field) {
+        var newErrorMsgs = this.state.errorMsgs;
+        delete newErrorMsgs[field];
+        this.setState({ errorMsgs: newErrorMsgs });
       }
     }, {
       key: 'render',
@@ -1310,6 +1784,18 @@ exports.default = function (formStyles) {
           if (field !== "__v" && field !== "_id" && field !== "created_at" && field !== "updated_at") fields.push(schema[field]);
         }
 
+        var error = this.state.errorMsg !== "" ? _react2.default.createElement(
+          'div',
+          { className: 'alert alert-danger', role: 'alert' },
+          _react2.default.createElement(
+            'strong',
+            null,
+            'Error'
+          ),
+          ' ',
+          this.state.errorMsg
+        ) : null;
+
         return _react2.default.createElement(
           'form',
           { className: formStyles.formClass },
@@ -1326,46 +1812,23 @@ exports.default = function (formStyles) {
           _react2.default.createElement(
             'div',
             { className: formStyles.formBodyClass },
-            fields.map(function (field) {
-              var opts = {
-                constraints: [],
-                placeholder: field.label || field.path
-              };
-
-              var tmpValue = null;
-
-              if (!!field.options) {
-                // If the field is required
-                if (field.options.required) opts.constraints.push({
-                  type: 'REQUIRED',
-                  details: {}
-                });
-
-                // If the field contains a placeholder
-                if (!!field.options.placeholder) opts.placeholder = field.options.placeholder;
-
-                // If the field
-                if (!!field.options.default) tmpValue = field.options.default;
-
-                // If there is a forced field
-                if (!!field.options.forceField) opts.forceField = field.options.forceField;
-              }
-
-              // If the field contains enum
-              if (!!field.enumValues) {
-                if (field.enumValues.length > 0) opts['enum'] = field.enumValues;
-              }
-
-              if (!!values[field.path]) tmpValue = values[field.path];
+            fields.map(function (f) {
+              var _mapOptions = (0, _fieldOptionsMapper2.default)(f, values),
+                  field = _mapOptions.field,
+                  options = _mapOptions.options,
+                  value = _mapOptions.value,
+                  type = _mapOptions.type;
 
               return _react2.default.createElement(_formInput2.default, {
                 key: field.path,
                 name: field.path,
                 label: field.label ? field.label : field.path,
-                type: field.instance.toLowerCase(),
-                options: opts,
-                value: tmpValue,
+                type: type,
+                options: options,
+                value: value,
                 updateStateValues: _this3.updateStateValues,
+                dispatchError: _this3.dispatchError,
+                removeError: _this3.removeError,
                 formStyles: formStyles
               });
             })
@@ -1373,6 +1836,7 @@ exports.default = function (formStyles) {
           _react2.default.createElement(
             'div',
             { className: formStyles.formFooterClass },
+            error,
             _react2.default.createElement('hr', null),
             _react2.default.createElement(
               'button',
@@ -1402,7 +1866,64 @@ exports.default = function (formStyles) {
 };
 
 /***/ }),
-/* 11 */
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+* React Mongoose Form Maker
+*
+* Copyright(c) 2017 Alexandre PENOMBRE
+* <aluzed_AT_gmail.com>
+*/
+var INPUT_RULES = {
+  MINDATE: 0,
+  MAXDATE: 1,
+  BEETWEEN: 2,
+  VALIDATE: 3
+};
+
+var Verify = function Verify(ruleName, details, value) {
+  switch (r.type) {
+    case INPUT_RULES.MINDATE:
+      if (moment(value) < moment(details.value)) return {
+        validation: false,
+        message: "must be geater than " + details.value
+      };
+      break;
+    case INPUT_RULES.MAXDATE:
+      if (moment(value) > moment(details.value)) return {
+        validation: false,
+        message: "must be lower than " + details.value
+      };
+      break;
+    case INPUT_RULES.BEETWEEN:
+      if (moment(value) > moment(details.max) || moment(value) < details.min) return {
+        validation: false,
+        message: "must be lower than " + details.max + " and geater than " + details.min
+      };
+      break;
+    case INPUT_RULES.VALIDATE:
+      if (details.validator(value) === false) return {
+        validation: false,
+        message: details.message ? details.message : "validation failed"
+      };
+      break;
+    default:
+      return { validation: true };
+      break;
+  }
+};
+
+exports.default = { INPUT_RULES: INPUT_RULES, Verify: Verify };
+
+/***/ }),
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -13735,10 +14256,10 @@ exports.default = function (formStyles) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)(module), __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)(module), __webpack_require__(16)))
 
 /***/ }),
-/* 12 */
+/* 16 */
 /***/ (function(module, exports) {
 
 var g;
@@ -13765,7 +14286,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 13 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {

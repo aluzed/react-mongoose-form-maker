@@ -6,15 +6,7 @@
 */
 import React from 'react'
 
-const INPUT_RULES = {
-  MINLENGTH   : 0,
-  MAXLENGTH   : 1,
-  ONLYNUMERIC : 2,
-  BEETWEEN    : 3,
-  GREATERTHAN : 4,
-  LOWERTHAN   : 5,
-  REQUIRED    : 6
-}
+import { INPUT_RULES, Verify } from '../rules/textRules';
 
 class Textarea extends React.Component {
   constructor(props) {
@@ -27,47 +19,45 @@ class Textarea extends React.Component {
   }
 
   checkRules(e) {
-    let currentInput = e.target,
-    errorCounter = 0,
-    d = {},
-    currentVal = currentInput.value
+    let currentValue = e.target.value
 
-    this.rules.forEach(r => {
-      switch(r.type) {
-        case INPUT_RULES.MINLENGTH :
-        d = r.details
-        if(currentVal.length < d.value)
-        errorCounter++
-        break
+    if(!!this.rules.forEach) {
+      this.rules.forEach(r => {
 
-        case INPUT_RULES.MAXLENGTH :
-        d = r.details
-        currentVal = currentVal.substr(0, d.value)
-        break
-
-        case INPUT_RULES.ONLYNUMERIC :
-        if(isNaN(currentVal)) {
-          if(currentVal.length > 0) {
-            currentVal = currentVal.substr(0, currentVal.length-1)
-          }
+        // Handle behaviours
+        switch(r.type) {
+          case INPUT_RULES.ONLYNUMERIC :
+            if(isNaN(currentValue) && currentValue.length > 0) {
+              currentValue = currentValue.substring(0, (currentValue.length - 1))
+              e.target.value = currentValue
+            }
+          break
         }
-        break
 
-        case INPUT_RULES.REQUIRED :
-        if(currentVal === "")
-        errorCounter++
-        break
+        // Call verify method from ../rules/textRules
+        let v = verify(r.type, r.details, currentValue)
 
-        default:
-        break
-      }
-    })
+        // If at least one rule has been infringed
+        if(!v.validation) {
+          // Display error on our input
+          this.setState({ hasError: true })
 
-    (errorCounter > 0) ?
-    this.setState({haveError: true}) :
-    this.setState({haveError: false})
+          // Send error message to the form container
+          this.props.dispatchError(this.props.name, v.message)
+        }
+        else {
+          this.props.removeError(this.props.name)
 
-    this.props.updateStateValues(this.props.name, currentVal)
+          // Has no error
+          this.setState({ hasError: false })
+        }
+      })
+    }
+
+    if(!!this.props.isNumber)
+      currentValue = parseFloat(currentValue);
+
+    this.props.updateStateValues(this.props.name, currentValue)
   }
 
   render() {
@@ -78,26 +68,29 @@ class Textarea extends React.Component {
 
     // If the input contain constraints
     if(!!options.constraints) {
-      options.constraints.forEach(constraint => {
-        if(!!INPUT_RULES[constraint.type]) {
-          let rule = {
-            type    : INPUT_RULES[constraint.type],
-            details : constraint.details
+      // Check if it is an array
+      if(!!options.constraints.forEach) {
+        options.constraints.forEach(constraint => {
+          if(!!INPUT_RULES[constraint.type]) {
+            let rule = {
+              type    : INPUT_RULES[constraint.type],
+              details : constraint.details
+            }
+            this.rules.push(rule)
           }
-          this.rules.push(rule)
-        }
-      })
+        })
+      }
     }
 
     let classNames = (hasError) ? this.props.formStyles.textareaErrorClass : this.props.formStyles.textareaClass
-    
+
     return (
       <textarea
-      type="text"
-      className={classNames}
-      value={value}
-      placeholder={placeholder}
-      onChange={e => this.checkRules(e)}></textarea>
+        type="text"
+        className={classNames}
+        value={value}
+        placeholder={placeholder}
+        onChange={e => this.checkRules(e)}></textarea>
     )
   }
 

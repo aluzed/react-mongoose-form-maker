@@ -5,6 +5,7 @@
 * <aluzed_AT_gmail.com>
 */
 import React from 'react'
+import { INPUT_RULES, Verify } from '../rules/enumRules'
 
 class Radio extends React.Component {
   constructor(props) {
@@ -12,6 +13,17 @@ class Radio extends React.Component {
   }
 
   changedValue(e) {
+    if(!!options.constraints) {
+      let required = options.constraints.map(o => o.type === 'REQUIRED');
+      if(!!required) {
+        if(e.target.value === "") {
+          this.props.dispatchError(this.props.name, "is required")
+        }
+        else {
+          this.props.removeError(this.props.name)
+        }
+      }
+    }
     this.props.updateStateValues(this.props.name, e.target.value)
   }
 
