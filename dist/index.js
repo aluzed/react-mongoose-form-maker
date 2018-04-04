@@ -1618,6 +1618,7 @@ exports.default = Textarea;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.SetDefaultFields = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1654,6 +1655,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * <aluzed_AT_gmail.com>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
+
+var __defaultFields = {
+  created: 'created',
+  modified: 'modified'
+};
 
 exports.default = function (formStyles) {
 
@@ -1781,7 +1787,7 @@ exports.default = function (formStyles) {
         var fields = [];
 
         for (var field in schema) {
-          if (field !== "__v" && field !== "_id" && field !== "created_at" && field !== "updated_at") fields.push(schema[field]);
+          if (field !== "__v" && field !== "_id" && field !== __defaultFields.created && field !== __defaultFields.modified) fields.push(schema[field]);
         }
 
         var error = this.state.errorMsg !== "" ? _react2.default.createElement(
@@ -1863,6 +1869,17 @@ exports.default = function (formStyles) {
 
     return FormMaker;
   }(_react2.default.Component);
+};
+
+/**
+ * Set default fields (created, modified)
+ * 
+ * @param {Object} fields 
+ */
+
+
+var SetDefaultFields = exports.SetDefaultFields = function SetDefaultFields(fields) {
+  __defaultFields = fields;
 };
 
 /***/ }),

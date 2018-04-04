@@ -9,10 +9,15 @@ import FormInput from './formInput'
 import defaultFormStyles from './formStyles'
 import mapOptions from './libs/fieldOptionsMapper';
 
+let __defaultFields = {
+  created: 'created',
+  modified: 'modified'
+}
+
 export default (formStyles) => {
 
   //  Check if we need to override default CSS style
-  formStyles = !!formStyles ? formStyles : defaultFormStyles
+  formStyles = !!formStyles ? formStyles : defaultFormStyles;
 
   return class FormMaker extends React.Component {
 
@@ -29,34 +34,34 @@ export default (formStyles) => {
         errorMsgs  : {} // Error messages to display
       }
 
-      this.updateStateValues = this.updateStateValues.bind(this)
-      this.dispatchError     = this.dispatchError.bind(this)
-      this.removeError       = this.removeError.bind(this)
+      this.updateStateValues = this.updateStateValues.bind(this);
+      this.dispatchError     = this.dispatchError.bind(this);
+      this.removeError       = this.removeError.bind(this);
     }
 
     // Getting Schema from our api and turn it into a form
     componentWillMount() {
       if(this.state.metaUrl !== "")
-      fetch(this.props.metaUrl)
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState({schema: responseJson})
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+        fetch(this.props.metaUrl)
+          .then(response => response.json())
+          .then(responseJson => {
+            this.setState({schema: responseJson});
+          })
+          .catch((error) => {
+            console.error(error);
+          })
     }
 
     // callback that set our state values for each fields
     updateStateValues(name, value) {
-      this.setState({ values: {...this.state.values, [name]: value } })
+      this.setState({ values: {...this.state.values, [name]: value } });
     }
 
     // Before executing validation callback, we need to check if every rule is respected
     validate(evt) {
-      evt.preventDefault()
-      let body = this.state.values
-      let errorMsgs = this.state.errorMsgs
+      evt.preventDefault();
+      let body = this.state.values;
+      let errorMsgs = this.state.errorMsgs;
 
       for(let f in this.state.schema) {
         if(!!this.state.schema[f].options) {
@@ -64,12 +69,12 @@ export default (formStyles) => {
 
             // If the file is required but missing, cancel the validation
             if(typeof body[f] === "undefined") {
-              this.setState({ errorMsgs: { ...errorMsgs, [f]: f + " is required." } })
+              this.setState({ errorMsgs: { ...errorMsgs, [f]: f + " is required." } });
               return;
             }
 
             if(body[f] === "") {
-              this.setState({ errorMsgs: { ...errorMsgs, [f]: f + " is required." } })
+              this.setState({ errorMsgs: { ...errorMsgs, [f]: f + " is required." } });
               return;
             }
           }
@@ -108,8 +113,8 @@ export default (formStyles) => {
       let fields = []
 
       for(let field in schema) {
-        if(field !== "__v" && field !== "_id" && field !== "created_at" && field !== "updated_at")
-        fields.push(schema[field])
+        if(field !== "__v" && field !== "_id" && field !== __defaultFields.created && field !== __defaultFields.modified)
+          fields.push(schema[field])
       }
 
       let error = (this.state.errorMsg !== "") ?  (
@@ -167,4 +172,13 @@ export default (formStyles) => {
       )
     }
   }
+}
+
+/**
+ * Set default fields (created, modified)
+ * 
+ * @param {Object} fields 
+ */
+export const SetDefaultFields = (fields) => {
+  __defaultFields = fields;
 }

@@ -22,8 +22,17 @@ By default not all kind of field will be displayed on client side. Here is the l
 ```javascript
 __v
 _id
-created_at
-updated_at
+created
+modified
+```
+
+It is possible to change *created* and *modified* fields by calling function SetDefaultFields : 
+
+```javascript
+SetDefaultFields({
+  created: 'created_at',
+  updated: 'updated_at'
+})
 ```
 
 ## Views
