@@ -8,6 +8,7 @@ import React from 'react'
 import FormInput from './formInput'
 import defaultFormStyles from './formStyles'
 import mapOptions from './libs/fieldOptionsMapper';
+import _ from 'lodash';
 
 let __defaultFields = {
   created: 'created',
@@ -41,6 +42,7 @@ export default (formStyles) => {
 
     // Getting Schema from our api and turn it into a form
     componentWillMount() {
+      debugger;
       if(this.state.metaUrl !== "")
         fetch(this.props.metaUrl)
           .then(response => response.json())
@@ -54,7 +56,7 @@ export default (formStyles) => {
 
     // callback that set our state values for each fields
     updateStateValues(name, value) {
-      this.setState({ values: {...this.state.values, [name]: value } });
+      this.setState({ values: _.extend(this.state.values, {[name]: value }) });
     }
 
     // Before executing validation callback, we need to check if every rule is respected
@@ -69,12 +71,12 @@ export default (formStyles) => {
 
             // If the file is required but missing, cancel the validation
             if(typeof body[f] === "undefined") {
-              this.setState({ errorMsgs: { ...errorMsgs, [f]: f + " is required." } });
+              this.setState({ errorMsgs: _.extend(errorMsgs, { [f]: f + " is required." }) });
               return;
             }
 
             if(body[f] === "") {
-              this.setState({ errorMsgs: { ...errorMsgs, [f]: f + " is required." } });
+              this.setState({ errorMsgs: _.extend(errorMsgs, { [f]: f + " is required." }) });
               return;
             }
           }

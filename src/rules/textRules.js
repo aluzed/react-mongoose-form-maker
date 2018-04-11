@@ -4,7 +4,7 @@
 * Copyright(c) 2017 Alexandre PENOMBRE
 * <aluzed_AT_gmail.com>
 */
-const INPUT_RULES = {
+export const INPUT_RULES = {
   MINLENGTH   : 0,
   MAXLENGTH   : 1,
   ONLYNUMERIC : 2,
@@ -16,7 +16,7 @@ const INPUT_RULES = {
   VALIDATE    : 8
 };
 
-const Verify = function(ruleName, details, value) {
+export const Verify = function(ruleName, details, value) {
   switch(ruleName) {
     case INPUT_RULES.MINLENGTH :
       if(value.length < details.value)
@@ -94,5 +94,3 @@ const Verify = function(ruleName, details, value) {
     break
   }
 }
-
-export default { INPUT_RULES, Verify };

@@ -107,7 +107,8 @@ module.exports = (field, values) => {
           })
         }
         break
-
+      
+      case "text":
       case "string" :
         // MINLENGTH
         if(field.options.minLength) {

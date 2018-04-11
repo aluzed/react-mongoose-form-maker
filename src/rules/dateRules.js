@@ -4,14 +4,14 @@
 * Copyright(c) 2017 Alexandre PENOMBRE
 * <aluzed_AT_gmail.com>
 */
-const INPUT_RULES = {
+export const INPUT_RULES = {
   MINDATE   : 0,
   MAXDATE   : 1,
   BEETWEEN  : 2,
   VALIDATE  : 3
 }
 
-const Verify = function(ruleName, details, value) {
+export const Verify = function(ruleName, details, value) {
   switch(r.type) {
     case INPUT_RULES.MINDATE :
       if(moment(value) < moment(details.value))
@@ -46,5 +46,3 @@ const Verify = function(ruleName, details, value) {
     break
   }
 }
-
-export default { INPUT_RULES, Verify };

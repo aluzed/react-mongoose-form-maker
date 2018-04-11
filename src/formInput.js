@@ -4,14 +4,15 @@
 * Copyright(c) 2017 Alexandre PENOMBRE
 * <aluzed_AT_gmail.com>
 */
-import React from 'react'
-import Input from './fields/input'
-import EnumList from './fields/enumList'
-import Select from './fields/select'
-import Textarea from './fields/textarea'
-import Radio from './fields/radio'
-import Checkbox from './fields/checkbox'
-import DateField from './fields/datefield'
+import React from 'react';
+import Input from './fields/input';
+import NumInput from './fields/numinput';
+import EnumList from './fields/enumList';
+import Select from './fields/select';
+import Textarea from './fields/textarea';
+import Radio from './fields/radio';
+import Checkbox from './fields/checkbox';
+import DateField from './fields/datefield';
 
 class FormInput extends React.Component {
 
@@ -24,6 +25,7 @@ class FormInput extends React.Component {
 
     let field = null
 
+    debugger;
     // Check if it has an enum
     if(!!options.enum) {
       switch(type) {
@@ -98,7 +100,7 @@ class FormInput extends React.Component {
         case "number":
         options.constraints.push({type: 'ONLYNUMERIC'})
         field = (
-          <Input
+          <NumInput
             name={name}
             options={options}
             value={value !== null ? value : ""}

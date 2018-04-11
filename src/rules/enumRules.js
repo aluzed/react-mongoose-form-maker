@@ -4,14 +4,14 @@
 * Copyright(c) 2017 Alexandre PENOMBRE
 * <aluzed_AT_gmail.com>
 */
-const INPUT_RULES = {
+export const INPUT_RULES = {
   MIN      : 0,
   MAX      : 1,
   BEETWEEN : 2,
   VALIDATE : 3
 }
 
-const Verify = function(ruleName, details, value) {
+export const Verify = function(ruleName, details, value) {
   switch(r.type) {
     case INPUT_RULES.MIN :
     if(value.length < details.value)
@@ -37,5 +37,3 @@ const Verify = function(ruleName, details, value) {
     break
   }
 }
-
-export default { INPUT_RULES, Verify };

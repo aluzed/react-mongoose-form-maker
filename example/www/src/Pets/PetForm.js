@@ -4,14 +4,14 @@
 * Copyright(c) 2017 Alexandre PENOMBRE
 * <aluzed_AT_gmail.com>
 */
-import React, { Component } from 'react'
-import _FormMaker from 'react-mongoose-form-maker'
+import React, { Component } from 'react';
+import _FormMaker from '../../../../dist/index';
 const FormMaker = _FormMaker()
 
 class PetForm extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   // Add Example
@@ -21,7 +21,7 @@ class PetForm extends Component {
         <FormMaker
           title="Add a Pet"
           metaUrl="http://localhost:3000/pets/meta_add"
-          onSubmit={ (values)=>{ console.log(values) } }
+          onSubmit={ values=>{ console.log(values) } }
           onCancel={ ()=>{ console.log('cancel callback') } } />
       </div>
     );
